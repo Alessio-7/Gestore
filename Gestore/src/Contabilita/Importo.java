@@ -56,6 +56,7 @@ public class Importo extends JDialog {
 				operazioneSvolta = false;
 
 				JPanel griglia = new JPanel( new GridLayout( 2, 2 ) );
+				griglia.setBackground( Finestra.coloreSfondo );
 
 				pannello.setLayout( new BorderLayout() );
 				pannello.add( griglia, BorderLayout.CENTER );
@@ -67,7 +68,7 @@ public class Importo extends JDialog {
 				griglia.add( label1 );
 				JTextField nomeTXT = new JTextField( "Importo " + parziali.length );
 				griglia.add( nomeTXT );
-				Etichetta label2 = new Etichetta( "Quantità  soldi : " );
+				Etichetta label2 = new Etichetta( "QuantitÃ Â  soldi : " );
 				griglia.add( label2 );
 				JTextField soldiTXT = new JTextField( "100.0" );
 				griglia.add( soldiTXT );
@@ -118,7 +119,7 @@ public class Importo extends JDialog {
 				JTextField nomeTXT = new JTextField( parziali[id].getNome() );
 				griglia.add( nomeTXT );
 
-				label1 = new Etichetta( "Quantità  soldi : " );
+				label1 = new Etichetta( "QuantitÃ Â  soldi : " );
 				griglia.add( label1 );
 				JTextField soldiTXT = new JTextField( "0.0" );
 				griglia.add( soldiTXT );
@@ -172,7 +173,7 @@ public class Importo extends JDialog {
 
 		String ritorno = "";
 		try {
-			ritorno = parziali[i].getNome() + " : \t" + parziali[i].getSoldi() + "€";
+			ritorno = parziali[i].getNome() + " : \t" + parziali[i].getSoldi() + "â‚¬";
 		} catch ( NullPointerException e ) {
 		}
 		return ritorno;
