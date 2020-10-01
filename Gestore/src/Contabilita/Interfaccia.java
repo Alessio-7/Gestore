@@ -317,6 +317,8 @@ public class Interfaccia {
 			frame.pulisciLayout();
 		} catch ( NullPointerException e ) {
 		}
+		
+		frame.wp.setLayout( new WrapLayout() );
 
 		JPanel g;
 		AreaTesto t;
