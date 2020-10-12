@@ -11,6 +11,7 @@ public class Lettore {
 
 	File f = new File( System.getProperty( "user.home" ) + "\\Documents\\Gestore\\Homework\\dati.txt" );
 	File f1 = new File( System.getProperty( "user.home" ) + "\\Documents\\Gestore\\Homework\\preferenze.txt" );
+	static File materie = new File( System.getProperty( "user.home" ) + "\\Documents\\Gestore\\Homework\\materie.txt" );
 
 	public void salvaDati( Compito[] compiti, double difficoltà, int anticipo ) {
 
@@ -166,5 +167,86 @@ public class Lettore {
 
 		return ritorno;
 
+	}
+
+	public static void salvaMaterie( String[] arrMaterie ) {
+
+		if ( materie.exists() ) {
+			PrintWriter pw = null;
+			try {
+				pw = new PrintWriter( materie );
+			} catch ( FileNotFoundException e ) {
+				e.printStackTrace();
+			}
+
+			if ( arrMaterie.length > 0 ) {
+				for ( int i = 0; i < arrMaterie.length; i++ ) {
+
+					pw.print( arrMaterie[i] );
+					pw.append( ',' );
+				}
+			} else {
+				materie.delete();
+			}
+
+			pw.close();
+		} else {
+			File dire = new File( materie.getParent() );
+			if ( !dire.exists() ) {
+				dire.mkdirs();
+			}
+			try {
+				if ( materie.createNewFile() ) {
+
+					PrintWriter pw = new PrintWriter( materie );
+
+					if ( arrMaterie.length > 0 ) {
+						for ( int i = 0; i < arrMaterie.length; i++ ) {
+							pw.print( arrMaterie[i] );
+							pw.append( ',' );
+						}
+					} else {
+						materie.delete();
+					}
+
+					pw.close();
+				}
+			} catch ( IOException e ) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public static String[] leggimaterie() {
+		String[] ritorno = { "Matematica", "Letteratura", "Antologia", "Geografia", "Scienze", "Inglese", "Motoria", "Storia", "Tecnica", "Francese", "Religione", "Musica", "Arte", "Fisica",
+				"Diritto", "Chimica" };
+
+		if ( materie.exists() ) {
+
+			char[] in = new char[(int) materie.length()];
+
+			FileReader r;
+			BufferedReader b;
+			try {
+				r = new FileReader( materie );
+				b = new BufferedReader( r );
+				b.read( in );
+			} catch ( FileNotFoundException e ) {
+				e.printStackTrace();
+			} catch ( IOException e ) {
+				e.printStackTrace();
+			}
+
+			String testoIntero = String.copyValueOf( in );
+			try {
+				if ( testoIntero.charAt( 0 ) == ',' ) {
+					testoIntero = testoIntero.substring( 1 );
+				}
+			} catch ( Exception e ) {
+			}
+			ritorno = testoIntero.split( "," );
+
+		}
+		return ritorno;
 	}
 }

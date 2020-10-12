@@ -85,7 +85,7 @@ public class MainHomework {
 			}
 		} );
 		menu.aggiungiSeparatore();
-		menuItem = new MenuItem( "Scelta gestori" );
+		menuItem = new MenuItem( "Scelta gestore" );
 		menu.add( menuItem );
 		menuItem.addActionListener( new ActionListener() {
 

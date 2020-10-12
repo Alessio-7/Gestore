@@ -13,21 +13,6 @@ public class Compito {
 	static public final double DIFFICILE = 2;
 	static public final double[] DIFFICOLTA = { SEMPLICE, NORMALE, DIFFICILE };
 
-	static public final String MATEMATICA = "Matematica";
-	static public final String LETTERATURA = "Letteratura";
-	static public final String ANTOLOGIA = "Antologia";
-	static public final String GEOGRAFIA = "Geografia";
-	static public final String SCIENZE = "Scienze";
-	static public final String INGLESE = "Inglese";
-	static public final String MOTORIA = "Motoria";
-	static public final String STORIA = "Storia";
-	static public final String TECNICA = "Tecnica";
-	static public final String FRANCESE = "Francese";
-	static public final String RELIGIONE = "Religione";
-	static public final String MUSICA = "Musica";
-	static public final String ARTE = "Arte";
-	static public final String[] MATERIE = { MATEMATICA, LETTERATURA, ANTOLOGIA, GEOGRAFIA, STORIA, SCIENZE, INGLESE, MUSICA, ARTE, FRANCESE, MOTORIA, TECNICA, RELIGIONE };
-
 	public Compito( String materia, String compito, String dataScadenza, String ora, double difficoltà ) {
 
 		this.materia = materia;
@@ -89,6 +74,10 @@ public class Compito {
 
 	public void setDifficoltà( double difficoltà ) {
 		this.difficoltà = difficoltà;
+	}
+
+	public static String[] materie() {
+		return !( Lettore.leggimaterie().length == 1 && Lettore.leggimaterie()[0].equals( "" ) ) ? Lettore.leggimaterie() : null;
 	}
 
 }

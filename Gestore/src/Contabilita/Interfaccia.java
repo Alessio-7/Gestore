@@ -37,7 +37,7 @@ import main.MenuItem;
 public class Interfaccia {
 
 	// final JFrame frame = new JFrame();
-	final Finestra frame = new Finestra( "Gestore contabilitÃ " );
+	final Finestra frame = new Finestra( "Gestore contabilità" );
 	// final JPanel l = new JPanel( new GridLayout( 1, 1 ) );
 	// final JScrollPane sp = new JScrollPane( layout );
 	JPanel griglia = null;
@@ -160,7 +160,7 @@ public class Interfaccia {
 			}
 		} );
 		menu.aggiungiSeparatore();
-		menuItem = new MenuItem( "Scelta gestori" );
+		menuItem = new MenuItem( "Scelta gestore" );
 		menu.add( menuItem );
 		menuItem.addActionListener( new ActionListener() {
 
@@ -225,7 +225,7 @@ public class Interfaccia {
 		AreaTesto t;
 
 		t = new AreaTesto();
-		t.setText( "Somma totale :\t" + importo.sommaParziali() + "â‚¬" );
+		t.setText( "Somma totale :\t" + importo.sommaParziali() + "€" );
 		t.setBorder( BorderFactory.createCompoundBorder( border, BorderFactory.createEmptyBorder( 50, 50, 50, 50 ) ) );
 		t.setEditable( false );
 		frame.wp.add( t );
@@ -317,14 +317,14 @@ public class Interfaccia {
 			frame.pulisciLayout();
 		} catch ( NullPointerException e ) {
 		}
-		
+
 		frame.wp.setLayout( new WrapLayout() );
 
 		JPanel g;
 		AreaTesto t;
 
 		t = new AreaTesto();
-		t.setText( "Somma totale :\t" + importo.sommaParziali() + "â‚¬" );
+		t.setText( "Somma totale :\t" + importo.sommaParziali() + "€" );
 		t.setBorder( BorderFactory.createCompoundBorder( border, BorderFactory.createEmptyBorder( 50, 50, 50, 50 ) ) );
 		t.setEditable( false );
 		frame.wp.add( t );
@@ -353,7 +353,7 @@ public class Interfaccia {
 						}
 					}
 					if ( importo.operazioneSvolta == true ) {
-						aggiungiMovimenti( "Modificato un importo Â» " + importo.nome + importo.soldi + "â‚¬ -> " + importo.nome2 + importo.soldi2 + "â‚¬" );
+						aggiungiMovimenti( "Modificato un importo » " + importo.nome + importo.soldi + "€ -> " + importo.nome2 + importo.soldi2 + "€" );
 					}
 
 					try {
@@ -385,7 +385,7 @@ public class Interfaccia {
 
 					importo.parziali = anotherArray;
 
-					aggiungiMovimenti( "Eliminato un importo Â» " + importo.nome );
+					aggiungiMovimenti( "Eliminato un importo » " + importo.nome );
 
 					try {
 						lettore.salvaDati( importo.parziali, movimenti );
@@ -421,7 +421,7 @@ public class Interfaccia {
 					}
 				}
 				if ( importo.operazioneSvolta == true ) {
-					aggiungiMovimenti( "Aggiunto un nuovo importo Â» " + importo.nome + importo.soldi );
+					aggiungiMovimenti( "Aggiunto un nuovo importo » " + importo.nome + importo.soldi );
 				}
 
 				try {
@@ -505,13 +505,13 @@ public class Interfaccia {
 
 				importo.parziali[cercaIndex( importo.parziali, scegliImporto.getSelectedItem().toString() )].addSoldi( new Double( soldiTXT.getText() ) );
 
-				( (AreaTesto) frame.wp.getComponent( 1 ) ).setText( soldiTXT.getText() + "â‚¬  /  " + dataTXT.getText() + "  /  " + scegliImporto.getSelectedItem().toString() + "  //  "
+				( (AreaTesto) frame.wp.getComponent( 1 ) ).setText( soldiTXT.getText() + "€  /  " + dataTXT.getText() + "  /  " + scegliImporto.getSelectedItem().toString() + "  //  "
 						+ noteTXT.getText() + " * " + importo.parziali[cercaIndex( importo.parziali, scegliImporto.getSelectedItem().toString() )].getNome() + " =  "
-						+ importo.parziali[cercaIndex( importo.parziali, scegliImporto.getSelectedItem().toString() )].getSoldi() + "â‚¬" );
+						+ importo.parziali[cercaIndex( importo.parziali, scegliImporto.getSelectedItem().toString() )].getSoldi() + "€" );
 				frame.wp.revalidate();
 
 				aggiungiMovimenti(
-						"Transazione IN Â»  " + soldiTXT.getText() + "  /  " + dataTXT.getText() + "  /  " + scegliImporto.getSelectedItem().toString() + "  //  " + noteTXT.getText() );
+						"Transazione IN »  " + soldiTXT.getText() + "  /  " + dataTXT.getText() + "  /  " + scegliImporto.getSelectedItem().toString() + "  //  " + noteTXT.getText() );
 				try {
 					lettore.salvaDati( importo.parziali, movimenti );
 				} catch ( IOException e ) {
@@ -527,9 +527,9 @@ public class Interfaccia {
 			@Override
 			public void actionPerformed( ActionEvent arg0 ) {
 
-				( (AreaTesto) frame.wp.getComponent( 1 ) ).setText( soldiTXT.getText() + "â‚¬  /  " + dataTXT.getText() + "  /  " + scegliImporto.getSelectedItem().toString() + "  //  "
+				( (AreaTesto) frame.wp.getComponent( 1 ) ).setText( soldiTXT.getText() + "€  /  " + dataTXT.getText() + "  /  " + scegliImporto.getSelectedItem().toString() + "  //  "
 						+ noteTXT.getText() + " * " + importo.parziali[cercaIndex( importo.parziali, scegliImporto.getSelectedItem().toString() )].getNome() + " =  "
-						+ importo.parziali[cercaIndex( importo.parziali, scegliImporto.getSelectedItem().toString() )].getSoldi() + "â‚¬" );
+						+ importo.parziali[cercaIndex( importo.parziali, scegliImporto.getSelectedItem().toString() )].getSoldi() + "€" );
 
 				frame.wp.revalidate();
 			}
@@ -539,9 +539,9 @@ public class Interfaccia {
 
 		try {
 			AreaTesto t = new AreaTesto();
-			t.setText( soldiTXT.getText() + "â‚¬  /  " + dataTXT.getText() + "  /  " + scegliImporto.getSelectedItem().toString() + "  //  " + noteTXT.getText() + " * "
+			t.setText( soldiTXT.getText() + "€  /  " + dataTXT.getText() + "  /  " + scegliImporto.getSelectedItem().toString() + "  //  " + noteTXT.getText() + " * "
 					+ importo.parziali[cercaIndex( importo.parziali, scegliImporto.getSelectedItem().toString() )].getNome() + " =  "
-					+ importo.parziali[cercaIndex( importo.parziali, scegliImporto.getSelectedItem().toString() )].getSoldi() + "â‚¬" );
+					+ importo.parziali[cercaIndex( importo.parziali, scegliImporto.getSelectedItem().toString() )].getSoldi() + "€" );
 			t.setBorder( BorderFactory.createCompoundBorder( border, BorderFactory.createEmptyBorder( 25, 50, 25, 50 ) ) );
 
 			frame.wp.add( t, new GridBagConstraints( 0, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets( 10, 0, 0, 0 ), 0, 0 ) );
@@ -626,12 +626,12 @@ public class Interfaccia {
 				if ( importo.parziali[cercaIndex( importo.parziali, scegliImporto.getSelectedItem().toString() )].getSoldi() >= new Double( soldiTXT.getText() ) ) {
 					importo.parziali[cercaIndex( importo.parziali, scegliImporto.getSelectedItem().toString() )].diminuisciSoldi( new Double( soldiTXT.getText() ) );
 
-					( (AreaTesto) frame.wp.getComponent( 1 ) ).setText( soldiTXT.getText() + "â‚¬  /  " + dataTXT.getText() + "  /  " + scegliImporto.getSelectedItem().toString() + "  //  "
+					( (AreaTesto) frame.wp.getComponent( 1 ) ).setText( soldiTXT.getText() + "€  /  " + dataTXT.getText() + "  /  " + scegliImporto.getSelectedItem().toString() + "  //  "
 							+ noteTXT.getText() + " * " + importo.parziali[cercaIndex( importo.parziali, scegliImporto.getSelectedItem().toString() )].getNome() + " =  "
-							+ importo.parziali[cercaIndex( importo.parziali, scegliImporto.getSelectedItem().toString() )].getSoldi() + "â‚¬" );
+							+ importo.parziali[cercaIndex( importo.parziali, scegliImporto.getSelectedItem().toString() )].getSoldi() + "€" );
 
 					aggiungiMovimenti(
-							"Transazione OUT Â»  " + soldiTXT.getText() + "â‚¬  /  " + dataTXT.getText() + "  /  " + scegliImporto.getSelectedItem().toString() + "  //  " + noteTXT.getText() );
+							"Transazione OUT »  " + soldiTXT.getText() + "€  /  " + dataTXT.getText() + "  /  " + scegliImporto.getSelectedItem().toString() + "  //  " + noteTXT.getText() );
 
 					try {
 						lettore.salvaDati( importo.parziali, movimenti );
@@ -653,9 +653,9 @@ public class Interfaccia {
 			@Override
 			public void actionPerformed( ActionEvent arg0 ) {
 
-				( (AreaTesto) frame.wp.getComponent( 1 ) ).setText( soldiTXT.getText() + "â‚¬  /  " + dataTXT.getText() + "  /  " + scegliImporto.getSelectedItem().toString() + "  //  "
+				( (AreaTesto) frame.wp.getComponent( 1 ) ).setText( soldiTXT.getText() + "€  /  " + dataTXT.getText() + "  /  " + scegliImporto.getSelectedItem().toString() + "  //  "
 						+ noteTXT.getText() + " * " + importo.parziali[cercaIndex( importo.parziali, scegliImporto.getSelectedItem().toString() )].getNome() + " =  "
-						+ importo.parziali[cercaIndex( importo.parziali, scegliImporto.getSelectedItem().toString() )].getSoldi() + "â‚¬" );
+						+ importo.parziali[cercaIndex( importo.parziali, scegliImporto.getSelectedItem().toString() )].getSoldi() + "€" );
 				frame.aggiorna();
 			}
 		} );
@@ -665,9 +665,9 @@ public class Interfaccia {
 		try {
 			AreaTesto t = new AreaTesto();
 			t = new AreaTesto();
-			t.setText( soldiTXT.getText() + "â‚¬  /  " + dataTXT.getText() + "  /  " + scegliImporto.getSelectedItem().toString() + "  //  " + noteTXT.getText() + " * "
+			t.setText( soldiTXT.getText() + "€  /  " + dataTXT.getText() + "  /  " + scegliImporto.getSelectedItem().toString() + "  //  " + noteTXT.getText() + " * "
 					+ importo.parziali[cercaIndex( importo.parziali, scegliImporto.getSelectedItem().toString() )].getNome() + " =  "
-					+ importo.parziali[cercaIndex( importo.parziali, scegliImporto.getSelectedItem().toString() )].getSoldi() + "â‚¬" );
+					+ importo.parziali[cercaIndex( importo.parziali, scegliImporto.getSelectedItem().toString() )].getSoldi() + "€" );
 			t.setEditable( false );
 			t.setBorder( BorderFactory.createCompoundBorder( border, BorderFactory.createEmptyBorder( 25, 50, 25, 50 ) ) );
 
@@ -763,14 +763,14 @@ public class Interfaccia {
 					importo.parziali[cercaIndex( importo.parziali, scegliImportoPrendi.getSelectedItem().toString() )].diminuisciSoldi( new Double( soldiTXT.getText() ) );
 					importo.parziali[cercaIndex( importo.parziali, scegliImportoDai.getSelectedItem().toString() )].addSoldi( new Double( soldiTXT.getText() ) );
 
-					( (AreaTesto) frame.wp.getComponent( 1 ) ).setText( soldiTXT.getText() + "â‚¬  /  " + dataTXT.getText() + "  /  " + scegliImportoPrendi.getSelectedItem().toString()
+					( (AreaTesto) frame.wp.getComponent( 1 ) ).setText( soldiTXT.getText() + "€  /  " + dataTXT.getText() + "  /  " + scegliImportoPrendi.getSelectedItem().toString()
 							+ "  ->  " + scegliImportoDai.getSelectedItem().toString() + "  //  " + noteTXT.getText() + " * "
 							+ importo.parziali[cercaIndex( importo.parziali, scegliImportoPrendi.getSelectedItem().toString() )].getNome() + " =  "
-							+ importo.parziali[cercaIndex( importo.parziali, scegliImportoPrendi.getSelectedItem().toString() )].getSoldi() + "â‚¬ - "
+							+ importo.parziali[cercaIndex( importo.parziali, scegliImportoPrendi.getSelectedItem().toString() )].getSoldi() + "€ - "
 							+ importo.parziali[cercaIndex( importo.parziali, scegliImportoDai.getSelectedItem().toString() )].getNome() + " =  "
-							+ importo.parziali[cercaIndex( importo.parziali, scegliImportoDai.getSelectedItem().toString() )].getSoldi() + "â‚¬" );
+							+ importo.parziali[cercaIndex( importo.parziali, scegliImportoDai.getSelectedItem().toString() )].getSoldi() + "€" );
 
-					aggiungiMovimenti( "Trasferimento Â»  " + soldiTXT.getText() + "  /  " + dataTXT.getText() + "  /  " + scegliImportoDai.getSelectedItem().toString() + "  ->  "
+					aggiungiMovimenti( "Trasferimento »  " + soldiTXT.getText() + "  /  " + dataTXT.getText() + "  /  " + scegliImportoDai.getSelectedItem().toString() + "  ->  "
 							+ scegliImportoPrendi.getSelectedItem().toString() + "  //  " + noteTXT.getText() );
 
 					try {
@@ -791,12 +791,12 @@ public class Interfaccia {
 			@Override
 			public void actionPerformed( ActionEvent arg0 ) {
 
-				( (AreaTesto) frame.wp.getComponent( 1 ) ).setText( soldiTXT.getText() + "â‚¬  /  " + dataTXT.getText() + "  /  " + scegliImportoPrendi.getSelectedItem().toString() + "  ->  "
+				( (AreaTesto) frame.wp.getComponent( 1 ) ).setText( soldiTXT.getText() + "€  /  " + dataTXT.getText() + "  /  " + scegliImportoPrendi.getSelectedItem().toString() + "  ->  "
 						+ scegliImportoDai.getSelectedItem().toString() + "  //  " + noteTXT.getText() + " * "
 						+ importo.parziali[cercaIndex( importo.parziali, scegliImportoPrendi.getSelectedItem().toString() )].getNome() + " =  "
-						+ importo.parziali[cercaIndex( importo.parziali, scegliImportoPrendi.getSelectedItem().toString() )].getSoldi() + "â‚¬ - "
+						+ importo.parziali[cercaIndex( importo.parziali, scegliImportoPrendi.getSelectedItem().toString() )].getSoldi() + "€ - "
 						+ importo.parziali[cercaIndex( importo.parziali, scegliImportoDai.getSelectedItem().toString() )].getNome() + " =  "
-						+ importo.parziali[cercaIndex( importo.parziali, scegliImportoDai.getSelectedItem().toString() )].getSoldi() + "â‚¬" );
+						+ importo.parziali[cercaIndex( importo.parziali, scegliImportoDai.getSelectedItem().toString() )].getSoldi() + "€" );
 				frame.aggiorna();
 			}
 		} );
@@ -807,11 +807,11 @@ public class Interfaccia {
 			AreaTesto t = new AreaTesto();
 			t = new AreaTesto();
 			t.setText(
-					soldiTXT.getText() + "â‚¬  /  " + dataTXT.getText() + "  /  " + scegliImportoPrendi.getSelectedItem().toString() + "  ->  " + scegliImportoDai.getSelectedItem().toString()
+					soldiTXT.getText() + "€  /  " + dataTXT.getText() + "  /  " + scegliImportoPrendi.getSelectedItem().toString() + "  ->  " + scegliImportoDai.getSelectedItem().toString()
 							+ "  //  " + noteTXT.getText() + " * " + importo.parziali[cercaIndex( importo.parziali, scegliImportoPrendi.getSelectedItem().toString() )].getNome() + " =  "
-							+ importo.parziali[cercaIndex( importo.parziali, scegliImportoPrendi.getSelectedItem().toString() )].getSoldi() + "â‚¬ - "
+							+ importo.parziali[cercaIndex( importo.parziali, scegliImportoPrendi.getSelectedItem().toString() )].getSoldi() + "€ - "
 							+ importo.parziali[cercaIndex( importo.parziali, scegliImportoDai.getSelectedItem().toString() )].getNome() + " =  "
-							+ importo.parziali[cercaIndex( importo.parziali, scegliImportoDai.getSelectedItem().toString() )].getSoldi() + "â‚¬" );
+							+ importo.parziali[cercaIndex( importo.parziali, scegliImportoDai.getSelectedItem().toString() )].getSoldi() + "€" );
 			t.setEditable( false );
 			t.setBorder( BorderFactory.createCompoundBorder( border, BorderFactory.createEmptyBorder( 25, 50, 25, 50 ) ) );
 
@@ -848,7 +848,7 @@ public class Interfaccia {
 		for ( int i = movimenti.length - 1; i > -1; i-- ) {
 
 			t = new AreaTesto();
-			t.setText( "\n\t\t" + ( i + 1 ) + " â€¢ " + movimenti[i] + "\t\t\n" );
+			t.setText( "\n\t\t" + ( i + 1 ) + " • " + movimenti[i] + "\t\t\n" );
 			t.setEditable( false );
 			// t.setBorder( border );
 

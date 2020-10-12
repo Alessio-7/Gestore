@@ -2,23 +2,31 @@ package Homework;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
 
+import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 
 import main.Bottone;
 import main.Etichetta;
+import main.Finestra;
 
 public class GestorePreferenze extends JDialog {
 
 	private static final long serialVersionUID = 1L;
+
 	MainHomework m = new MainHomework();
 	boolean fineInserimento = false;
 
@@ -39,11 +47,11 @@ public class GestorePreferenze extends JDialog {
 		JPanel pannello = new JPanel();
 		pannello.setLayout( new BorderLayout() );
 
-		this.setSize( 500, 150 );
+		this.setSize( 500, 200 );
 		this.setTitle( "Preferenze" );
 
-		JPanel griglia = new JPanel( new GridLayout( 2, 2 ) );
-		griglia.setBackground( m.frame.coloreSfondo );
+		JPanel griglia = new JPanel( new GridLayout( 3, 2 ) );
+		griglia.setBackground( Finestra.coloreSfondo );
 		pannello.add( griglia, BorderLayout.CENTER );
 
 		Etichetta label = new Etichetta( "Difficoltà massima per giornata : " );
@@ -62,6 +70,25 @@ public class GestorePreferenze extends JDialog {
 		anticipo.setFont( m.font );
 		anticipo.setSelectedIndex( anticipoCompiti );
 		griglia.add( anticipo );
+
+		label = new Etichetta( "Materie: " );
+		griglia.add( label );
+		Bottone gestioneMaterie = new Bottone( "Gestione materie" );
+		griglia.add( gestioneMaterie );
+		JDialog dialog = this;
+		gestioneMaterie.addActionListener( new ActionListener() {
+
+			@Override
+			public void actionPerformed( ActionEvent arg0 ) {
+
+				GestoreMaterie gMaterie = new GestoreMaterie( dialog );
+
+				if ( gMaterie.isDisplayable() ) {
+					while ( !gMaterie.fineInserimento ) {
+					}
+				}
+			}
+		} );
 
 		Bottone imposta = new Bottone( "Imposta" );
 		pannello.add( imposta, BorderLayout.SOUTH );
@@ -320,6 +347,163 @@ public class GestorePreferenze extends JDialog {
 
 		super( frame, "", true );
 		disegnaSchermo();
+	}
+
+}
+
+class GestoreMaterie extends JDialog {
+
+	private static final long serialVersionUID = 1L;
+
+	public boolean fineInserimento = false;
+
+	Bottone imposta = new Bottone( "Imposta" );
+	private JPanel grigliaMaterie = new JPanel( new GridBagLayout() );
+
+	public GestoreMaterie( JDialog frame ) {
+		super( frame, "", true );
+
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
+		setLayout( new BorderLayout() );
+		setResizable( false );
+		setLocation( ( (int) screenSize.getWidth() / 2 ) - 230, 250 );
+		setSize( 500, 500 );
+		setTitle( "Gestione materie" );
+
+		grigliaMaterie.setBackground( Finestra.coloreSfondo );
+		JScrollPane sc = new JScrollPane( grigliaMaterie );
+		sc.setBorder( BorderFactory.createLineBorder( Finestra.coloreContainer ) );
+		add( sc, BorderLayout.CENTER );
+
+		add( imposta, BorderLayout.SOUTH );
+		imposta.addActionListener( new ActionListener() {
+
+			@Override
+			public void actionPerformed( ActionEvent arg0 ) {
+				dispose();
+				fineInserimento = true;
+
+			}
+		} );
+
+		operazione();
+	}
+
+	public void operazione() {
+
+		grigliaMaterie.removeAll();
+
+		Etichetta materia;
+		String[] materie = Compito.materie();
+		int i = -1;
+		if ( materie != null ) {
+			JPanel contenitoreMateria;
+			for ( i = 0; i < materie.length; i++ ) {
+
+				if ( materie[i].equals( "" ) ) {
+					continue;
+				}
+
+				contenitoreMateria = new JPanel( new WrapLayout() );
+				contenitoreMateria.setBackground( Finestra.coloreSfondo );
+
+				materia = new Etichetta( materie[i] );
+				materia.setBorder( BorderFactory.createCompoundBorder( BorderFactory.createLineBorder( Finestra.coloreContainer ), BorderFactory.createEmptyBorder( 5, 5, 5, 5 ) ) );
+				contenitoreMateria.add( materia );
+
+				Bottone rimuovi = new Bottone( "Rimuovi" );
+				rimuovi.setName( i + "" );
+				contenitoreMateria.add( rimuovi );
+
+				grigliaMaterie.add( contenitoreMateria, new GridBagConstraints( 1, i, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets( 5, 5, 5, 5 ), 0, 0 ) );
+				rimuovi.addActionListener( new ActionListener() {
+
+					@Override
+					public void actionPerformed( ActionEvent arg0 ) {
+
+						int a = Integer.valueOf( rimuovi.getName() );
+
+						grigliaMaterie.remove( a );
+
+						String[] materie = new String[0];
+						for ( int i = 0; i + 1 < ( grigliaMaterie.getComponentCount() ); i++ ) {
+
+							materie = aggiungiMateria( materie, ( (Etichetta) ( (JPanel) grigliaMaterie.getComponent( i ) ).getComponent( 0 ) ).getText() );
+						}
+						Lettore.salvaMaterie( materie );// materia1,materia2,materia3,
+
+						grigliaMaterie.repaint();
+						grigliaMaterie.revalidate();
+
+						operazione();
+					}
+				} );
+
+			}
+		}
+		Bottone aggiungi = new Bottone( "Aggiungi" );
+		grigliaMaterie.add( aggiungi, new GridBagConstraints( 0, i + 1, 2, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets( 5, 5, 5, 5 ), 0, 0 ) );
+		GestoreMaterie g = this;
+		aggiungi.addActionListener( new ActionListener() {
+
+			@Override
+			public void actionPerformed( ActionEvent arg0 ) {
+
+				JDialog aggiungiMateria = new JDialog( g );
+
+				Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+				aggiungiMateria.setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
+				aggiungiMateria.setLayout( new BorderLayout() );
+				aggiungiMateria.setResizable( false );
+				aggiungiMateria.setLocation( ( (int) screenSize.getWidth() / 2 ) - 100, 250 );
+				aggiungiMateria.setSize( 250, 150 );
+				aggiungiMateria.setTitle( "Aggiungi materia" );
+
+				JPanel layout = new JPanel( new GridBagLayout() );
+				layout.setBackground( Finestra.coloreSfondo );
+
+				layout.add( new Etichetta( "Nome materia:" ),
+						new GridBagConstraints( 0, 0, 1, 1, 0.0, 0.0, GridBagConstraints.LINE_START, GridBagConstraints.NONE, new Insets( 5, 5, 5, 5 ), 0, 0 ) );
+
+				JTextField nome = new JTextField();
+				nome.setFont( Etichetta.font );
+				nome.setColumns( 10 );
+				layout.add( nome, new GridBagConstraints( 1, 0, 1, 1, 0.0, 0.0, GridBagConstraints.LINE_END, GridBagConstraints.NONE, new Insets( 5, 5, 5, 5 ), 0, 0 ) );
+
+				Bottone btAggiungiMateria = new Bottone( "Aggiungi materia" );
+				layout.add( btAggiungiMateria, new GridBagConstraints( 0, 1, 2, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets( 5, 5, 5, 5 ), 0, 0 ) );
+				btAggiungiMateria.addActionListener( new ActionListener() {
+
+					@Override
+					public void actionPerformed( ActionEvent arg0 ) {
+
+						Lettore.salvaMaterie( aggiungiMateria( Lettore.leggimaterie(), nome.getText().equals( "" ) ? "Materia senza nome" : nome.getText() ) );
+						aggiungiMateria.dispose();
+						operazione();
+					}
+				} );
+
+				aggiungiMateria.add( layout, BorderLayout.CENTER );
+				aggiungiMateria.setVisible( true );
+
+			}
+		} );
+
+		grigliaMaterie.repaint();
+		grigliaMaterie.revalidate();
+
+		setVisible( true );
+	}
+
+	private String[] aggiungiMateria( String[] m, String materia ) {
+		String[] clone = new String[m.length + 1];
+
+		for ( int i = 0; i < m.length; i++ ) {
+			clone[i] = m[i];
+		}
+		clone[clone.length - 1] = materia;
+		return clone;
 	}
 
 }

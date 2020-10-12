@@ -11,11 +11,12 @@ public class Etichetta extends JLabel {
 
 	public static Color sfondo = MainGestore.colori.leggiColori()[0];
 	public static Color foreground = MainGestore.colori.leggiColori()[1];
+	public static Font font = new Font( "Microsoft New Tai Lue", Font.PLAIN, 12 );
 
 	public Etichetta( String testo ) {
 		setText( testo );
 		setBackground( sfondo );
 		setForeground( foreground );
-		setFont( new Font( "Microsoft New Tai Lue", Font.PLAIN, 12 ) );
+		setFont( font );
 	}
 }

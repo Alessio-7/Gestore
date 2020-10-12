@@ -14,6 +14,7 @@ import javax.swing.JTextField;
 
 import main.Bottone;
 import main.Etichetta;
+import main.Finestra;
 
 public class Importo extends JDialog {
 
@@ -68,7 +69,7 @@ public class Importo extends JDialog {
 				griglia.add( label1 );
 				JTextField nomeTXT = new JTextField( "Importo " + parziali.length );
 				griglia.add( nomeTXT );
-				Etichetta label2 = new Etichetta( "QuantitÃ Â  soldi : " );
+				Etichetta label2 = new Etichetta( "Quantità  soldi : " );
 				griglia.add( label2 );
 				JTextField soldiTXT = new JTextField( "100.0" );
 				griglia.add( soldiTXT );
@@ -119,7 +120,7 @@ public class Importo extends JDialog {
 				JTextField nomeTXT = new JTextField( parziali[id].getNome() );
 				griglia.add( nomeTXT );
 
-				label1 = new Etichetta( "QuantitÃ Â  soldi : " );
+				label1 = new Etichetta( "Quantità  soldi : " );
 				griglia.add( label1 );
 				JTextField soldiTXT = new JTextField( "0.0" );
 				griglia.add( soldiTXT );
@@ -173,7 +174,7 @@ public class Importo extends JDialog {
 
 		String ritorno = "";
 		try {
-			ritorno = parziali[i].getNome() + " : \t" + parziali[i].getSoldi() + "â‚¬";
+			ritorno = parziali[i].getNome() + " : \t" + parziali[i].getSoldi() + "€";
 		} catch ( NullPointerException e ) {
 		}
 		return ritorno;

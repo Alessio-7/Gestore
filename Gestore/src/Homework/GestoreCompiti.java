@@ -7,6 +7,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
+import java.util.Date;
 
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -40,12 +41,15 @@ public class GestoreCompiti extends JDialog implements Runnable {
 
 	}
 
+	@SuppressWarnings("deprecation")
 	public void operazione( int tipoBottone1, int index ) {
 
 		JPanel pannello = new JPanel();
 		switch (tipoBottone1) {
 
 			case ( AGGIUNGI ): {
+				Date date = new Date();
+
 				JPanel griglia = new JPanel( new GridLayout( 5, 4 ) );
 				griglia.setBackground( m.frame.coloreSfondo );
 
@@ -57,7 +61,7 @@ public class GestoreCompiti extends JDialog implements Runnable {
 
 				Etichetta label = new Etichetta( "Materia compito : " );
 				griglia.add( label );
-				JComboBox<String> materia = new JComboBox<>( Compito.MATERIE );
+				JComboBox<String> materia = new JComboBox<>( Compito.materie() );
 				materia.setFont( m.font );
 				griglia.add( materia );
 				griglia.add( new Etichetta( "" ) );
@@ -75,8 +79,10 @@ public class GestoreCompiti extends JDialog implements Runnable {
 				griglia.add( label );
 				Integer[] giorni = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31 };
 				JComboBox<Integer> giorno = new JComboBox<>( giorni );
+				giorno.setSelectedIndex( date.getDate() );
 				Integer[] mesi = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
 				JComboBox<Integer> mese = new JComboBox<>( mesi );
+				mese.setSelectedIndex( date.getMonth() );
 				giorno.setFont( m.font );
 				griglia.add( giorno );
 
@@ -143,7 +149,7 @@ public class GestoreCompiti extends JDialog implements Runnable {
 
 				label = new Etichetta( "Materia compito : " );
 				griglia.add( label );
-				JComboBox<String> materia = new JComboBox<>( Compito.MATERIE );
+				JComboBox<String> materia = new JComboBox<>( Compito.materie() );
 				materia.setFont( m.font );
 				griglia.add( materia );
 				griglia.add( new Etichetta( "" ) );
