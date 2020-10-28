@@ -17,6 +17,7 @@ import javax.swing.JTextField;
 
 import main.Bottone;
 import main.Etichetta;
+import main.Finestra;
 
 public class GestoreCompiti extends JDialog implements Runnable {
 
@@ -51,12 +52,12 @@ public class GestoreCompiti extends JDialog implements Runnable {
 				Date date = new Date();
 
 				JPanel griglia = new JPanel( new GridLayout( 5, 4 ) );
-				griglia.setBackground( m.frame.coloreSfondo );
+				griglia.setBackground( Finestra.coloreSfondo );
 
 				pannello.setLayout( new BorderLayout() );
 				pannello.add( griglia, BorderLayout.CENTER );
 
-				this.setSize( 500, 200 );
+				this.setSize( 500, 225 );
 				this.setTitle( "Aggiungi compito" );
 
 				Etichetta label = new Etichetta( "Materia compito : " );
@@ -137,12 +138,12 @@ public class GestoreCompiti extends JDialog implements Runnable {
 			case ( MODIFICA ): {
 
 				JPanel griglia = new JPanel( new GridLayout( 5, 4 ) );
-				griglia.setBackground( m.frame.coloreSfondo );
+				griglia.setBackground( Finestra.coloreSfondo );
 
 				pannello.setLayout( new BorderLayout() );
 				pannello.add( griglia, BorderLayout.CENTER );
 
-				this.setSize( 500, 200 );
+				this.setSize( 500, 225 );
 				this.setTitle( "Modifica compito" );
 
 				Etichetta label;

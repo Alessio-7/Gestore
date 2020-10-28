@@ -36,9 +36,9 @@ public class MainGestore {
 
 	public final Font font = new Font( "Microsoft New Tai Lue", Font.PLAIN, 12 );
 
-	public static LettoreColori colori = new LettoreColori();
+	public static Lettore colori = new Lettore();
 
-	public void finestraGestore() {
+	public static void finestraGestore() {
 		JFrame frame = new JFrame( "Scelta gestore" );
 		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		frame.setSize( 500, 360 );
@@ -49,7 +49,7 @@ public class MainGestore {
 
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBorder( BorderFactory.createCompoundBorder( BorderFactory.createLineBorder( MainGestore.colori.leggiColori()[3] ), BorderFactory.createEmptyBorder( 3, 3, 3, 0 ) ) );
-		menuBar.setBackground( colori.leggiColori()[2] );
+		menuBar.setBackground( colori.leggiColori()[0] );
 
 		Bottone menu = new Bottone( "Preferenze" );
 		menu.addActionListener( new ActionListener() {
@@ -62,6 +62,7 @@ public class MainGestore {
 					while ( !p.fineInserimento ) {
 					}
 				}
+
 				frame.dispose();
 
 				SystemTray tray = SystemTray.getSystemTray();
@@ -73,11 +74,11 @@ public class MainGestore {
 				try {
 					tray.add( trayIcon );
 				} catch ( AWTException e ) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 
 				trayIcon.displayMessage( "ATTENZIONE", "Riavviare il programma", MessageType.WARNING );
+
 			}
 		} );
 
@@ -114,18 +115,34 @@ public class MainGestore {
 
 	public static void main( String[] args ) {
 
-		MainGestore g = new MainGestore();
-		g.finestraGestore();
-
+		switch (colori.leggiAvvio()) {
+			case "Scelta gestori": {
+				MainGestore.finestraGestore();
+				break;
+			}
+			case "Contabilità": {
+				Interfaccia.main( null );
+				break;
+			}
+			case "Homework": {
+				MainHomework.main( null );
+				break;
+			}
+			default: {
+				MainGestore.finestraGestore();
+			}
+		}
 	}
 
 }
 
 class Preferenze extends JDialog {
 
+	private static final long serialVersionUID = 1L;
+
 	boolean fineInserimento;
 
-	LettoreColori colori = new LettoreColori();
+	Lettore colori = new Lettore();
 
 	public Preferenze( JFrame frame ) {
 		super( frame, "", true );
@@ -137,37 +154,42 @@ class Preferenze extends JDialog {
 		setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
 		setLayout( new BorderLayout() );
 
-		JPanel gl = new JPanel( new GridLayout( 1, 2 ) );
+		JPanel gl = new JPanel( new GridLayout( 2, 2 ) );
 		gl.setBackground( colori.leggiColori()[0] );
 		Etichetta label = new Etichetta( "Tema: " );
 		gl.add( label );
 
 		String[] temi = { "Chiaro", "Scuro" };
 		JComboBox<String> tema = new JComboBox<>( temi );
+		tema.setSelectedIndex( gl.getBackground().getBlue() == 47 ? 1 : 0 );
 		gl.add( tema );
 
-		JPanel wp = new JPanel( new WrapLayout() );
-		wp.setBackground( colori.leggiColori()[0] );
+		label = new Etichetta( "All'avvio: " );
+		gl.add( label );
+
+		String[] gestori = { "Scelta gestori", "Contabilità", "Homework" };
+		JComboBox<String> gestore = new JComboBox<>( gestori );
+		gestore.setSelectedItem( colori.leggiAvvio() );
+		gl.add( gestore );
+
 		Bottone applica = new Bottone( "Applica" );
-		wp.add( applica );
 		add( gl, BorderLayout.CENTER );
-		add( wp, BorderLayout.SOUTH );
+		add( applica, BorderLayout.SOUTH );
 		applica.addActionListener( new ActionListener() {
 
 			@Override
 			public void actionPerformed( ActionEvent arg0 ) {
-				LettoreColori l = new LettoreColori();
+				Lettore l = new Lettore();
 
 				if ( tema.getSelectedItem() == "Chiaro" ) {
 					Color[] coloriChiari = { new Color( 255, 255, 255 ), new Color( 0, 0, 0 ), new Color( 242, 242, 242 ), new Color( 204, 204, 204 ), new Color( 240, 240, 240 ),
 							new Color( 204, 204, 204 ) };
-					l.salvaDati( coloriChiari );
+					l.salvaDati( coloriChiari, (String) gestore.getSelectedItem() );
 				} else {
 					Color[] coloriScuri = { new Color( 47, 47, 47 ), new Color( 255, 255, 255 ), new Color( 66, 67, 70 ), Color.DARK_GRAY, new Color( 30, 30, 30 ),
 							new Color( 204, 204, 204 ) };
-					l.salvaDati( coloriScuri );
+					l.salvaDati( coloriScuri, (String) gestore.getSelectedItem() );
 				}
-
 				dispose();
 				fineInserimento = true;
 			}

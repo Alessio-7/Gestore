@@ -1,7 +1,9 @@
 package Contabilita;
 
+import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -9,11 +11,12 @@ import java.io.PrintWriter;
 public class Lettore {
 
 	File f = new File( System.getProperty( "user.home" ) + "\\Documents\\Gestore\\contabilita\\dati.txt" );
+	File coloriImporti = new File( System.getProperty( "user.home" ) + "\\Documents\\Gestore\\contabilita\\colori importi.txt" );
 
 	TotParziale[] parziali = new TotParziale[0];
 	String[] movimenti = new String[0];
 
-	public void salvaDati( TotParziale[] parziali, String[] movimenti ) throws IOException {
+	public void salvaDati( TotParziale[] parziali, String[] movimenti, Color[] cImporti ) throws IOException {
 
 		if ( f.exists() ) {
 
@@ -67,9 +70,60 @@ public class Lettore {
 			}
 
 		}
+
+		if ( coloriImporti.exists() ) {
+
+			PrintWriter pw = new PrintWriter( coloriImporti );
+
+			if ( cImporti.length > 0 ) {
+				pw.print( "" );
+				try {
+					for ( Color c : cImporti ) {
+						pw.append( c.getRed() + "," + c.getGreen() + "," + c.getBlue() + ";" );
+					}
+				} catch ( NullPointerException e ) {
+					for ( int i = 0; i < cImporti.length; i++ ) {
+						pw.append( "204,204,204;" );
+					}
+				}
+			} else {
+				coloriImporti.delete();
+			}
+
+			pw.close();
+
+		} else {
+
+			File dire = new File( coloriImporti.getParent() );
+			if ( !dire.exists() ) {
+				dire.mkdirs();
+			}
+			if ( coloriImporti.createNewFile() ) {
+
+				PrintWriter pw = new PrintWriter( coloriImporti );
+
+				if ( cImporti.length > 0 ) {
+					pw.print( "" );
+					try {
+						for ( Color c : cImporti ) {
+							pw.append( c.getRed() + "," + c.getGreen() + "," + c.getBlue() + ";" );
+						}
+					} catch ( NullPointerException e ) {
+						for ( int i = 0; i < cImporti.length; i++ ) {
+							pw.append( "204,204,204;" );
+						}
+					}
+				} else {
+					pw.print( "n" );
+				}
+
+				pw.close();
+			}
+
+		}
 	}
 
-	public TotParziale[] leggiDatiParziali( TotParziale[] parzialiArray ) throws IOException {
+	public TotParziale[] leggiDatiParziali() throws IOException {
 
 		int volte;
 		String testoIntero;
@@ -88,6 +142,7 @@ public class Lettore {
 		volte = new Integer( testoIntero.substring( 0, testoIntero.indexOf( '#' ) ) );
 		importi = testoIntero.substring( testoIntero.indexOf( '#' ) + 1, ( testoIntero.indexOf( "@" ) ) );
 		parziali = new TotParziale[0];
+		Color[] colori = leggiColoriImporti( volte );
 
 		for ( int i = 0; i < volte; i++ ) {
 
@@ -104,7 +159,7 @@ public class Lettore {
 			importi = importi.substring( c + 1, importi.length() );
 
 			aggiungiArrayParziali();
-			TotParziale parziale = new TotParziale( nome, soldi );
+			TotParziale parziale = new TotParziale( nome, soldi, colori[i] );
 			parziali[i] = parziale;
 
 		}
@@ -115,7 +170,7 @@ public class Lettore {
 
 	}
 
-	public String[] leggiDatiMovimenti( String[] movimentiArray ) throws IOException {
+	public String[] leggiDatiMovimenti() throws IOException {
 
 		movimenti = new String[0];
 
@@ -152,6 +207,57 @@ public class Lettore {
 
 	}
 
+	private Color[] leggiColoriImporti( int nImporti ) {
+		Color[] ritorno = new Color[0];
+
+		if ( coloriImporti.exists() ) {
+
+			char[] in = new char[(int) coloriImporti.length()];
+
+			FileReader r;
+			BufferedReader b;
+			try {
+				r = new FileReader( coloriImporti );
+				b = new BufferedReader( r );
+				b.read( in );
+			} catch ( FileNotFoundException e ) {
+			} catch ( IOException e ) {
+			}
+
+			String testoIntero = String.copyValueOf( in );
+
+			try {
+
+				String[] coloriArr = testoIntero.split( ";" );
+				String[] dati = null;
+
+				for ( int i = 0; i < coloriArr.length; i++ ) {
+					dati = coloriArr[i].split( "," );
+					ritorno = aggiungiColor( ritorno, new Color( Integer.parseInt( dati[0] ), Integer.parseInt( dati[1] ), Integer.parseInt( dati[2] ) ) );
+				}
+			} catch ( Exception e ) {
+			}
+		} else {
+			Color[] coloriPredefiniti = new Color[nImporti];
+			for ( int i = 0; i < nImporti; i++ ) {
+				coloriPredefiniti = aggiungiColor( coloriPredefiniti, new Color( 204, 204, 204 ) );
+			}
+
+			return coloriPredefiniti;
+		}
+		return ritorno;
+	}
+
+	private Color[] aggiungiColor( Color[] c, Color Color ) {
+		Color[] clone = new Color[c.length + 1];
+
+		for ( int i = 0; i < c.length; i++ ) {
+			clone[i] = c[i];
+		}
+		clone[clone.length - 1] = Color;
+		return clone;
+	}
+
 	public void aggiungiArrayParziali() {
 
 		TotParziale[] array = parziali;
@@ -175,5 +281,4 @@ public class Lettore {
 		long testo = f.length();
 		return testo;
 	}
-
 }

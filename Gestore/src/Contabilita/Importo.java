@@ -1,6 +1,7 @@
 package Contabilita;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
@@ -56,23 +57,52 @@ public class Importo extends JDialog {
 			case ( AGGIUNGI ): {
 				operazioneSvolta = false;
 
-				JPanel griglia = new JPanel( new GridLayout( 2, 2 ) );
+				JPanel griglia = new JPanel( new GridLayout( 3, 2 ) );
 				griglia.setBackground( Finestra.coloreSfondo );
 
 				pannello.setLayout( new BorderLayout() );
 				pannello.add( griglia, BorderLayout.CENTER );
 
-				this.setSize( 500, 200 );
+				this.setSize( 500, 175 );
 				this.setTitle( "Aggiungi importo" );
 
-				Etichetta label1 = new Etichetta( "Nome importo : " );
-				griglia.add( label1 );
+				Etichetta label = new Etichetta( "Nome importo : " );
+				griglia.add( label );
+
 				JTextField nomeTXT = new JTextField( "Importo " + parziali.length );
 				griglia.add( nomeTXT );
-				Etichetta label2 = new Etichetta( "QuantitÃ Â  soldi : " );
-				griglia.add( label2 );
+
+				label = new Etichetta( "Quantità  soldi : " );
+				griglia.add( label );
+
 				JTextField soldiTXT = new JTextField( "100.0" );
 				griglia.add( soldiTXT );
+
+				label = new Etichetta( "Colore : " );
+				griglia.add( label );
+
+				JPanel rgb = new JPanel( new GridLayout( 1, 6 ) );
+				rgb.setBackground( Finestra.coloreSfondo );
+				rgb.add( new Etichetta( "R :" ) );
+
+				JTextField rTXT = new JTextField();
+				rTXT.setText( "204" );
+				rgb.add( rTXT );
+
+				rgb.add( new Etichetta( "G :" ) );
+
+				JTextField gTXT = new JTextField();
+				gTXT.setText( "204" );
+				rgb.add( gTXT );
+
+				rgb.add( new Etichetta( "B :" ) );
+
+				JTextField bTXT = new JTextField();
+				bTXT.setText( "204" );
+				rgb.add( bTXT );
+
+				griglia.add( rgb );
+
 				Bottone aggiungi = new Bottone( "Aggiungi" );
 				pannello.add( aggiungi, BorderLayout.SOUTH );
 				aggiungi.addActionListener( new ActionListener() {
@@ -84,7 +114,8 @@ public class Importo extends JDialog {
 							nome = nomeTXT.getText();
 							soldi = " =  " + soldiTXT.getText();
 
-							TotParziale parziale1 = new TotParziale( nomeTXT.getText(), new Double( soldiTXT.getText() ) );
+							TotParziale parziale1 = new TotParziale( nomeTXT.getText(), new Double( soldiTXT.getText() ),
+									new Color( new Integer( rTXT.getText() ), new Integer( gTXT.getText() ), new Integer( bTXT.getText() ) ) );
 							aggiungiArrayParziali();
 
 							if ( parziali.length > 0 ) {
@@ -107,24 +138,49 @@ public class Importo extends JDialog {
 			}
 			case ( CORREGGI ): {
 				operazioneSvolta = false;
-				JPanel griglia = new JPanel( new GridLayout( 2, 2 ) );
+				JPanel griglia = new JPanel( new GridLayout( 3, 2 ) );
 				griglia.setBackground( Finestra.coloreSfondo );
 
 				pannello.setLayout( new BorderLayout() );
 				pannello.add( griglia, BorderLayout.CENTER );
 
-				this.setSize( 500, 250 );
+				this.setSize( 500, 175 );
 				this.setTitle( "Modifica importo" );
 
-				Etichetta label1 = new Etichetta( "Nome importo : " );
-				griglia.add( label1 );
+				Etichetta label = new Etichetta( "Nome importo : " );
+				griglia.add( label );
 				JTextField nomeTXT = new JTextField( parziali[id].getNome() );
 				griglia.add( nomeTXT );
 
-				label1 = new Etichetta( "QuantitÃ Â  soldi : " );
-				griglia.add( label1 );
+				label = new Etichetta( "Quantità  soldi : " );
+				griglia.add( label );
 				JTextField soldiTXT = new JTextField( "0.0" );
 				griglia.add( soldiTXT );
+
+				label = new Etichetta( "Colore : " );
+				griglia.add( label );
+
+				JPanel rgb = new JPanel( new GridLayout( 1, 6 ) );
+				rgb.setBackground( Finestra.coloreSfondo );
+				rgb.add( new Etichetta( "R :" ) );
+
+				JTextField rTXT = new JTextField();
+				rTXT.setText( "" + parziali[id].getColore().getRed() );
+				rgb.add( rTXT );
+
+				rgb.add( new Etichetta( "G :" ) );
+
+				JTextField gTXT = new JTextField();
+				gTXT.setText( "" + parziali[id].getColore().getGreen() );
+				rgb.add( gTXT );
+
+				rgb.add( new Etichetta( "B :" ) );
+
+				JTextField bTXT = new JTextField();
+				bTXT.setText( "" + parziali[id].getColore().getBlue() );
+				rgb.add( bTXT );
+
+				griglia.add( rgb );
 
 				Bottone correggi = new main.Bottone( "Modifica" );
 				pannello.add( correggi, BorderLayout.SOUTH );
@@ -140,6 +196,7 @@ public class Importo extends JDialog {
 
 								parziali[id].setSoldi( new Double( soldiTXT.getText() ) );
 								parziali[id].setNome( nomeTXT.getText() );
+								parziali[id].setColore( new Color( new Integer( rTXT.getText() ), new Integer( gTXT.getText() ), new Integer( bTXT.getText() ) ) );
 								operazioneSvolta = true;
 
 								fineInserimento = true;
@@ -175,7 +232,7 @@ public class Importo extends JDialog {
 
 		String ritorno = "";
 		try {
-			ritorno = parziali[i].getNome() + " : \t" + parziali[i].getSoldi() + "â‚¬";
+			ritorno = parziali[i].getNome() + " : \t" + parziali[i].getSoldi() + "€";
 		} catch ( NullPointerException e ) {
 		}
 		return ritorno;
@@ -237,4 +294,13 @@ public class Importo extends JDialog {
 		return oggetti;
 	}
 
+	public Color[] getColoriImporti() {
+		Color[] ritorno = new Color[parziali.length];
+
+		for ( int i = 0; i < ritorno.length; i++ ) {
+			ritorno[i] = parziali[i].getColore();
+		}
+
+		return ritorno;
+	}
 }

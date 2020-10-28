@@ -166,7 +166,7 @@ public class Interfaccia {
 
 			@Override
 			public void actionPerformed( ActionEvent arg0 ) {
-				MainGestore.main( null );
+				MainGestore.finestraGestore();
 				frame.dispose();
 			}
 		} );
@@ -177,9 +177,11 @@ public class Interfaccia {
 
 			try {
 
-				importo.parziali = lettore.leggiDatiParziali( importo.parziali );
+				importo.parziali = lettore.leggiDatiParziali();
 
-				movimenti = lettore.leggiDatiMovimenti( movimenti );
+				movimenti = lettore.leggiDatiMovimenti();
+
+				lettore.salvaDati( importo.parziali, movimenti, importo.getColoriImporti() );
 
 			} catch ( IOException e ) {
 
@@ -233,7 +235,8 @@ public class Interfaccia {
 		for ( int i = 0; i < importo.parziali.length; i++ ) {
 
 			t = new AreaTesto();
-			t.setBorder( BorderFactory.createCompoundBorder( border, BorderFactory.createEmptyBorder( 50, 50, 50, 50 ) ) );
+			Border bordoColorato = BorderFactory.createLineBorder( importo.parziali[i].getColore(), 2 );
+			t.setBorder( BorderFactory.createCompoundBorder( bordoColorato, BorderFactory.createEmptyBorder( 50, 50, 50, 50 ) ) );
 			t.setText( importo.generaParziali( i ) );
 			t.setEditable( false );
 
@@ -332,7 +335,8 @@ public class Interfaccia {
 		for ( int i = 0; i < importo.parziali.length; i++ ) {
 
 			g = new JPanel( new GridLayout( 2, 1 ) );
-			g.setBorder( BorderFactory.createCompoundBorder( border, BorderFactory.createEmptyBorder( 50, 50, 25, 50 ) ) );
+			Border bordoColorato = BorderFactory.createLineBorder( importo.parziali[i].getColore(), 2 );
+			g.setBorder( BorderFactory.createCompoundBorder( bordoColorato, BorderFactory.createEmptyBorder( 50, 50, 25, 50 ) ) );
 			g.setBackground( Finestra.coloreSfondo );
 			t = new AreaTesto();
 			t.setText( importo.generaParziali( i ) + "\n\n" );
@@ -357,7 +361,7 @@ public class Interfaccia {
 					}
 
 					try {
-						lettore.salvaDati( importo.parziali, movimenti );
+						lettore.salvaDati( importo.parziali, movimenti, importo.getColoriImporti() );
 					} catch ( IOException e ) {
 						e.printStackTrace();
 					}
@@ -373,6 +377,8 @@ public class Interfaccia {
 				@Override
 				public void actionPerformed( ActionEvent arg0 ) {
 
+					aggiungiMovimenti( "Eliminato un importo » " + importo.parziali[new Integer( elimina.getName() )].getNome() );
+
 					TotParziale[] anotherArray = new TotParziale[importo.parziali.length - 1];
 
 					for ( int i = 0, k = 0; i < importo.parziali.length; i++ ) {
@@ -385,10 +391,8 @@ public class Interfaccia {
 
 					importo.parziali = anotherArray;
 
-					aggiungiMovimenti( "Eliminato un importo » " + importo.nome );
-
 					try {
-						lettore.salvaDati( importo.parziali, movimenti );
+						lettore.salvaDati( importo.parziali, movimenti, importo.getColoriImporti() );
 					} catch ( IOException e ) {
 						e.printStackTrace();
 					}
@@ -425,7 +429,7 @@ public class Interfaccia {
 				}
 
 				try {
-					lettore.salvaDati( importo.parziali, movimenti );
+					lettore.salvaDati( importo.parziali, movimenti, importo.getColoriImporti() );
 				} catch ( IOException e ) {
 					e.printStackTrace();
 				}
@@ -513,7 +517,7 @@ public class Interfaccia {
 				aggiungiMovimenti(
 						"Transazione IN »  " + soldiTXT.getText() + "  /  " + dataTXT.getText() + "  /  " + scegliImporto.getSelectedItem().toString() + "  //  " + noteTXT.getText() );
 				try {
-					lettore.salvaDati( importo.parziali, movimenti );
+					lettore.salvaDati( importo.parziali, movimenti, importo.getColoriImporti() );
 				} catch ( IOException e ) {
 					e.printStackTrace();
 				}
@@ -634,7 +638,7 @@ public class Interfaccia {
 							"Transazione OUT »  " + soldiTXT.getText() + "€  /  " + dataTXT.getText() + "  /  " + scegliImporto.getSelectedItem().toString() + "  //  " + noteTXT.getText() );
 
 					try {
-						lettore.salvaDati( importo.parziali, movimenti );
+						lettore.salvaDati( importo.parziali, movimenti, importo.getColoriImporti() );
 					} catch ( IOException e ) {
 						e.printStackTrace();
 					}
@@ -774,7 +778,7 @@ public class Interfaccia {
 							+ scegliImportoPrendi.getSelectedItem().toString() + "  //  " + noteTXT.getText() );
 
 					try {
-						lettore.salvaDati( importo.parziali, movimenti );
+						lettore.salvaDati( importo.parziali, movimenti, importo.getColoriImporti() );
 					} catch ( IOException e ) {
 						e.printStackTrace();
 					}

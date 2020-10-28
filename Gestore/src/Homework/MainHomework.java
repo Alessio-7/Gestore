@@ -91,7 +91,7 @@ public class MainHomework {
 
 			@Override
 			public void actionPerformed( ActionEvent arg0 ) {
-				MainGestore.main( null );
+				MainGestore.finestraGestore();
 				frame.dispose();
 			}
 		} );

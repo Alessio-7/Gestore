@@ -47,7 +47,7 @@ public class GestorePreferenze extends JDialog {
 		JPanel pannello = new JPanel();
 		pannello.setLayout( new BorderLayout() );
 
-		this.setSize( 500, 200 );
+		this.setSize( 500, 175 );
 		this.setTitle( "Preferenze" );
 
 		JPanel griglia = new JPanel( new GridLayout( 3, 2 ) );
