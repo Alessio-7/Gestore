@@ -9,14 +9,13 @@ import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 
 public class Finestra extends JFrame {
 
 	private static final long serialVersionUID = 1;
 
 	public JPanel wp = new JPanel( new WrapLayout() );
-	public JScrollPane sc = new JScrollPane( wp );
+	public PannelloScorrimento sc = new PannelloScorrimento( wp );
 	public JMenuBar menuBar = new JMenuBar();
 
 	public static Color coloreSfondo = MainGestore.colori.leggiColori()[0];
@@ -32,14 +31,12 @@ public class Finestra extends JFrame {
 		setLayout( new BorderLayout() );
 		add( sc, BorderLayout.CENTER );
 		setJMenuBar( menuBar );
-		wp.setBackground( coloreSfondo ); // new Color( 47, 47, 47 )
-		sc.setBorder( BorderFactory.createEmptyBorder() );
+		wp.setBackground( coloreSfondo );
 	}
 
 	public void setMenuBar( Menu menu ) {
 		menuBar.setBorder( BorderFactory.createCompoundBorder( BorderFactory.createLineBorder( MainGestore.colori.leggiColori()[3] ), BorderFactory.createEmptyBorder( 3, 3, 3, 0 ) ) );
-		// Color.DARK_GRAY
-		menuBar.setBackground( coloreMenu );// new Color( 66, 67, 70 )
+		menuBar.setBackground( coloreMenu );
 		menuBar.add( menu );
 	}
 

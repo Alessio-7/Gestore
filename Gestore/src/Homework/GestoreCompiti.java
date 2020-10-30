@@ -9,13 +9,13 @@ import java.awt.event.ActionListener;
 import java.util.Calendar;
 import java.util.Date;
 
-import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 import main.Bottone;
+import main.CampoTesto;
+import main.ComboBox;
 import main.Etichetta;
 import main.Finestra;
 
@@ -62,16 +62,14 @@ public class GestoreCompiti extends JDialog implements Runnable {
 
 				Etichetta label = new Etichetta( "Materia compito : " );
 				griglia.add( label );
-				JComboBox<String> materia = new JComboBox<>( Compito.materie() );
-				materia.setFont( m.font );
+				ComboBox materia = new ComboBox( Compito.materie() );
 				griglia.add( materia );
 				griglia.add( new Etichetta( "" ) );
 				griglia.add( new Etichetta( "" ) );
 
 				label = new Etichetta( "Compito : " );
 				griglia.add( label );
-				JTextField compitoTXT = new JTextField( "Compito da fare" );
-				compitoTXT.setFont( m.font );
+				CampoTesto compitoTXT = new CampoTesto( "Compito da fare" );
 				griglia.add( compitoTXT );
 				griglia.add( new Etichetta( "" ) );
 				griglia.add( new Etichetta( "" ) );
@@ -79,39 +77,34 @@ public class GestoreCompiti extends JDialog implements Runnable {
 				label = new Etichetta( "Data : " );
 				griglia.add( label );
 				Integer[] giorni = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31 };
-				JComboBox<Integer> giorno = new JComboBox<>( giorni );
+				ComboBox giorno = new ComboBox( giorni );
 				giorno.setSelectedIndex( date.getDate() );
 				Integer[] mesi = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
-				JComboBox<Integer> mese = new JComboBox<>( mesi );
+				ComboBox mese = new ComboBox( mesi );
 				mese.setSelectedIndex( date.getMonth() );
-				giorno.setFont( m.font );
 				griglia.add( giorno );
 
 				label = new Etichetta( " / " );
 				griglia.add( label );
-				mese.setFont( m.font );
 				griglia.add( mese );
 
 				label = new Etichetta( "Ora : " );
 				String[] ore = { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" };
-				JComboBox<String> ora = new JComboBox<>( ore );
+				ComboBox ora = new ComboBox( ore );
 				String[] minuti = { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24",
 						"25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51",
 						"52", "53", "54", "55", "56", "57", "58", "59" };
-				JComboBox<String> minuto = new JComboBox<>( minuti );
+				ComboBox minuto = new ComboBox( minuti );
 				griglia.add( label );
-				ora.setFont( m.font );
 				griglia.add( ora );
 				label = new Etichetta( " : " );
 				griglia.add( label );
-				minuto.setFont( m.font );
 				griglia.add( minuto );
 
 				label = new Etichetta( "Difficoltà : " );
 				griglia.add( label );
 				String[] d = { "Semplice", "Normale", "Difficile" };
-				JComboBox<String> difficoltà = new JComboBox<>( d );
-				difficoltà.setFont( m.font );
+				ComboBox difficoltà = new ComboBox( d );
 				griglia.add( difficoltà );
 				griglia.add( new Etichetta( "" ) );
 				griglia.add( new Etichetta( "" ) );
@@ -150,16 +143,14 @@ public class GestoreCompiti extends JDialog implements Runnable {
 
 				label = new Etichetta( "Materia compito : " );
 				griglia.add( label );
-				JComboBox<String> materia = new JComboBox<>( Compito.materie() );
-				materia.setFont( m.font );
+				ComboBox materia = new ComboBox( Compito.materie() );
 				griglia.add( materia );
 				griglia.add( new Etichetta( "" ) );
 				griglia.add( new Etichetta( "" ) );
 
 				label = new Etichetta( "Compito : " );
 				griglia.add( label );
-				JTextField compitoTXT = new JTextField( "Compito da fare" );
-				compitoTXT.setFont( m.font );
+				CampoTesto compitoTXT = new CampoTesto( "Compito da fare" );
 				griglia.add( compitoTXT );
 				griglia.add( new Etichetta( "" ) );
 				griglia.add( new Etichetta( "" ) );
@@ -167,36 +158,31 @@ public class GestoreCompiti extends JDialog implements Runnable {
 				label = new Etichetta( "Data : " );
 				griglia.add( label );
 				Integer[] giorni = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31 };
-				JComboBox<Integer> giorno = new JComboBox<>( giorni );
+				ComboBox giorno = new ComboBox( giorni );
 				Integer[] mesi = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
-				JComboBox<Integer> mese = new JComboBox<>( mesi );
-				giorno.setFont( m.font );
+				ComboBox mese = new ComboBox( mesi );
 				griglia.add( giorno );
 				label = new Etichetta( " / " );
 				griglia.add( label );
-				mese.setFont( m.font );
 				griglia.add( mese );
 
 				label = new Etichetta( "Ora : " );
 				String[] ore = { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" };
-				JComboBox<String> ora = new JComboBox<>( ore );
+				ComboBox ora = new ComboBox( ore );
 				String[] minuti = { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24",
 						"25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51",
 						"52", "53", "54", "55", "56", "57", "58", "59" };
-				JComboBox<String> minuto = new JComboBox<>( minuti );
+				ComboBox minuto = new ComboBox( minuti );
 				griglia.add( label );
-				ora.setFont( m.font );
 				griglia.add( ora );
 				label = new Etichetta( " : " );
 				griglia.add( label );
-				minuto.setFont( m.font );
 				griglia.add( minuto );
 
 				label = new Etichetta( "Difficoltà : " );
 				griglia.add( label );
 				String[] d = { "Semplice", "Normale", "Difficile" };
-				JComboBox<String> difficoltà = new JComboBox<>( d );
-				difficoltà.setFont( m.font );
+				ComboBox difficoltà = new ComboBox( d );
 				griglia.add( difficoltà );
 				griglia.add( new Etichetta( "" ) );
 				griglia.add( new Etichetta( "" ) );

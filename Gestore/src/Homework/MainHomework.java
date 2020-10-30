@@ -1,6 +1,5 @@
 package Homework;
 
-//import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -16,15 +15,11 @@ import main.Finestra;
 import main.MainGestore;
 import main.Menu;
 import main.MenuItem;
+import main.WrapLayout;
 
 public class MainHomework {
 
 	final Finestra frame = new Finestra( "Homework" );
-
-	// public final Color coloreSfondoDark = new Color( 47, 47, 47 );
-	// public final Color coloreMenuBarDark = new Color( 66, 67, 70 );
-	// public final Color coloreTestoDark = new Color( 255, 255, 255 );
-	// public final Color coloreBottoneDark = new Color( 30, 30, 30 );
 
 	public final Font font = new Font( "Microsoft New Tai Lue", Font.PLAIN, 12 );
 

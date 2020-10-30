@@ -15,9 +15,10 @@ public class Bottone extends JButton {
 
 	public Bottone( String nome ) {
 		setText( nome );
-		setBackground( sfondo );// new Color( 30, 30, 30 )
-		setForeground( foreground );// new Color( 255, 255, 255 )
+		setBackground( sfondo );
+		setForeground( foreground );
 		setFont( new Font( "Microsoft New Tai Lue", Font.PLAIN, 12 ) );
 		setBorder( BorderFactory.createCompoundBorder( BorderFactory.createLineBorder( Menu.bordo ), BorderFactory.createEmptyBorder( 5, 15, 5, 15 ) ) );
+		setFocusPainted( false );
 	}
 }

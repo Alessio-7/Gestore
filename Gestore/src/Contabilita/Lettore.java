@@ -22,7 +22,7 @@ public class Lettore {
 
 			PrintWriter pw = new PrintWriter( f );
 
-			if ( parziali.length > 0 ) {
+			if ( parziali.length > 0 | movimenti.length > 0 ) {
 				pw.print( parziali.length );
 				pw.append( '#' );
 				for ( int i = 0; i < parziali.length; i++ ) {

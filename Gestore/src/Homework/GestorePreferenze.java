@@ -12,16 +12,17 @@ import java.awt.event.ActionListener;
 import java.util.Calendar;
 
 import javax.swing.BorderFactory;
-import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
 
 import main.Bottone;
+import main.CampoTesto;
+import main.ComboBox;
 import main.Etichetta;
 import main.Finestra;
+import main.PannelloScorrimento;
+import main.WrapLayout;
 
 public class GestorePreferenze extends JDialog {
 
@@ -58,16 +59,14 @@ public class GestorePreferenze extends JDialog {
 		griglia.add( label );
 		String[] diff = { "1 semplice", "1 normale", "1 normale e 1 semplice", "1 difficile", "1 difficile e 1 semplice", "1 difficile e 1 normale", "1 difficile, 1 normale e 1 semplice",
 				"2 difficili" };
-		JComboBox<String> difficoltà = new JComboBox<>( diff );
-		difficoltà.setFont( m.font );
+		ComboBox difficoltà = new ComboBox( diff );
 		difficoltà.setSelectedIndex( (int) ( ( maxDifficoltà + 1 ) * 0.5 ) );
 		griglia.add( difficoltà );
 
 		label = new Etichetta( "Anticipo compiti : " );
 		griglia.add( label );
 		String[] anticipi = { "Il giorno stesso", "1 giorno prima", "2 giorni prima", "3 giorni prima" };
-		JComboBox<String> anticipo = new JComboBox<>( anticipi );
-		anticipo.setFont( m.font );
+		ComboBox anticipo = new ComboBox( anticipi );
 		anticipo.setSelectedIndex( anticipoCompiti );
 		griglia.add( anticipo );
 
@@ -372,7 +371,7 @@ class GestoreMaterie extends JDialog {
 		setTitle( "Gestione materie" );
 
 		grigliaMaterie.setBackground( Finestra.coloreSfondo );
-		JScrollPane sc = new JScrollPane( grigliaMaterie );
+		PannelloScorrimento sc = new PannelloScorrimento( grigliaMaterie );
 		sc.setBorder( BorderFactory.createLineBorder( Finestra.coloreContainer ) );
 		add( sc, BorderLayout.CENTER );
 
@@ -466,8 +465,7 @@ class GestoreMaterie extends JDialog {
 				layout.add( new Etichetta( "Nome materia:" ),
 						new GridBagConstraints( 0, 0, 1, 1, 0.0, 0.0, GridBagConstraints.LINE_START, GridBagConstraints.NONE, new Insets( 5, 5, 5, 5 ), 0, 0 ) );
 
-				JTextField nome = new JTextField();
-				nome.setFont( Etichetta.font );
+				CampoTesto nome = new CampoTesto();
 				nome.setColumns( 10 );
 				layout.add( nome, new GridBagConstraints( 1, 0, 1, 1, 0.0, 0.0, GridBagConstraints.LINE_END, GridBagConstraints.NONE, new Insets( 5, 5, 5, 5 ), 0, 0 ) );
 

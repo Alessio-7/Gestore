@@ -19,27 +19,26 @@ import java.io.IOException;
 import java.util.Date;
 
 import javax.swing.BorderFactory;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 
 import main.AreaTesto;
 import main.Bottone;
+import main.CampoTesto;
+import main.ComboBox;
 import main.Etichetta;
 import main.Finestra;
 import main.MainGestore;
 import main.Menu;
 import main.MenuItem;
+import main.WrapLayout;
 
 public class Interfaccia {
 
-	// final JFrame frame = new JFrame();
 	final Finestra frame = new Finestra( "Gestore contabilità" );
-	// final JPanel l = new JPanel( new GridLayout( 1, 1 ) );
-	// final JScrollPane sp = new JScrollPane( layout );
+
 	JPanel griglia = null;
 	JPanel ly = new JPanel( new WrapLayout() );
 
@@ -47,11 +46,6 @@ public class Interfaccia {
 	Lettore lettore = new Lettore();
 
 	String[] movimenti = new String[0];
-
-	// final Color coloreSfondo = new Color( 47, 47, 47 );
-	// final Color coloreMenuBar = new Color( 66, 67, 70 );
-	// final Color coloreTesto = new Color( 255, 255, 255 );
-	// final Color coloreBottone = new Color( 30, 30, 30 );
 
 	final Font font = new Font( "Microsoft New Tai Lue", Font.PLAIN, 12 );
 	Dimension dimensioneBottone = null;
@@ -72,7 +66,6 @@ public class Interfaccia {
 
 		ly.setBackground( Finestra.coloreMenu );
 
-		// frame.add( gbl, BorderLayout.CENTER );
 		frame.add( ly, BorderLayout.SOUTH );
 
 		Menu menu, submenu;
@@ -463,7 +456,7 @@ public class Interfaccia {
 		scheda.setBackground( Finestra.coloreSfondo );
 
 		label = new Etichetta( "Soldi :  " );
-		JTextField soldiTXT = new JTextField( "0.0" );
+		CampoTesto soldiTXT = new CampoTesto( "0.0" );
 		soldiTXT.setColumns( 4 );
 		scheda.add( label, new GridBagConstraints( 0, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets( 25, 25, 25, 25 ), 0, 0 ) );
 		scheda.add( soldiTXT, new GridBagConstraints( 1, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets( 25, 25, 25, 25 ), 0, 0 ) );
@@ -473,7 +466,7 @@ public class Interfaccia {
 
 		label = new Etichetta( "Data :" );
 		@SuppressWarnings("deprecation")
-		JTextField dataTXT = new JTextField( date.getDate() + " / " + ( date.getMonth() + 1 ) + " / " + ( date.getYear() + 1900 ) );
+		CampoTesto dataTXT = new CampoTesto( date.getDate() + " / " + ( date.getMonth() + 1 ) + " / " + ( date.getYear() + 1900 ) );
 		scheda.add( label, new GridBagConstraints( 3, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets( 25, 25, 25, 25 ), 0, 0 ) );
 		scheda.add( dataTXT, new GridBagConstraints( 4, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets( 25, 25, 25, 25 ), 0, 0 ) );
 
@@ -485,8 +478,7 @@ public class Interfaccia {
 		for ( int i = 0; i < ( arrayImporti.length ); i++ ) {
 			arrayImporti[i] = importo.parziali[i].getNome();
 		}
-		JComboBox<String> scegliImporto = new JComboBox<String>( arrayImporti );
-		scegliImporto.setFont( font );
+		ComboBox scegliImporto = new ComboBox( arrayImporti );
 		scheda.add( label, new GridBagConstraints( 6, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets( 25, 25, 25, 25 ), 0, 0 ) );
 		scheda.add( scegliImporto, new GridBagConstraints( 7, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets( 25, 25, 25, 25 ), 0, 0 ) );
 
@@ -495,7 +487,7 @@ public class Interfaccia {
 
 		label = new Etichetta( "Note : " );
 		scheda.add( label, new GridBagConstraints( 9, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets( 25, 25, 25, 25 ), 0, 0 ) );
-		JTextField noteTXT = new JTextField( "" );
+		CampoTesto noteTXT = new CampoTesto( "" );
 		noteTXT.setColumns( 10 );
 		scheda.add( noteTXT, new GridBagConstraints( 10, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets( 25, 25, 25, 25 ), 0, 0 ) );
 
@@ -515,7 +507,7 @@ public class Interfaccia {
 				frame.wp.revalidate();
 
 				aggiungiMovimenti(
-						"Transazione IN »  " + soldiTXT.getText() + "  /  " + dataTXT.getText() + "  /  " + scegliImporto.getSelectedItem().toString() + "  //  " + noteTXT.getText() );
+						"Transazione IN »  " + soldiTXT.getText() + "€  /  " + dataTXT.getText() + "  /  " + scegliImporto.getSelectedItem().toString() + "  //  " + noteTXT.getText() );
 				try {
 					lettore.salvaDati( importo.parziali, movimenti, importo.getColoriImporti() );
 				} catch ( IOException e ) {
@@ -556,9 +548,6 @@ public class Interfaccia {
 			displayError( "Aggiungere un nuovo importo" );
 		}
 
-		// gbl.add( new Etichetta( "ciao" ), new GridBagConstraints( 0, 0, 0, 0, 0.0,
-		// 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets( 0, 0, 0,
-		// 0 ), 0, 0 ) );
 		frame.aggiorna();
 	}
 
@@ -583,7 +572,7 @@ public class Interfaccia {
 		Etichetta label = null;
 
 		label = new Etichetta( "Soldi :  " );
-		JTextField soldiTXT = new JTextField( "0.0" );
+		CampoTesto soldiTXT = new CampoTesto( "0.0" );
 		soldiTXT.setColumns( 4 );
 		scheda.add( label, new GridBagConstraints( 0, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets( 25, 25, 25, 25 ), 0, 0 ) );
 		scheda.add( soldiTXT, new GridBagConstraints( 1, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets( 25, 25, 25, 25 ), 0, 0 ) );
@@ -593,7 +582,7 @@ public class Interfaccia {
 
 		label = new Etichetta( "Data :" );
 		@SuppressWarnings("deprecation")
-		JTextField dataTXT = new JTextField( date.getDate() + " / " + ( date.getMonth() + 1 ) + " / " + ( date.getYear() + 1900 ) );
+		CampoTesto dataTXT = new CampoTesto( date.getDate() + " / " + ( date.getMonth() + 1 ) + " / " + ( date.getYear() + 1900 ) );
 		scheda.add( label, new GridBagConstraints( 3, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets( 25, 25, 25, 25 ), 0, 0 ) );
 		scheda.add( dataTXT, new GridBagConstraints( 4, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets( 25, 25, 25, 25 ), 0, 0 ) );
 
@@ -605,8 +594,7 @@ public class Interfaccia {
 		for ( int i = 0; i < ( arrayImporti.length ); i++ ) {
 			arrayImporti[i] = importo.parziali[i].getNome();
 		}
-		JComboBox<String> scegliImporto = new JComboBox<String>( arrayImporti );
-		scegliImporto.setFont( font );
+		ComboBox scegliImporto = new ComboBox( arrayImporti );
 		scheda.add( label, new GridBagConstraints( 6, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets( 25, 25, 25, 25 ), 0, 0 ) );
 		scheda.add( scegliImporto, new GridBagConstraints( 7, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets( 25, 25, 25, 25 ), 0, 0 ) );
 
@@ -615,7 +603,7 @@ public class Interfaccia {
 
 		label = new Etichetta( "Note : " );
 		scheda.add( label, new GridBagConstraints( 9, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets( 25, 25, 25, 25 ), 0, 0 ) );
-		JTextField noteTXT = new JTextField( "" );
+		CampoTesto noteTXT = new CampoTesto( "" );
 		noteTXT.setColumns( 10 );
 		scheda.add( noteTXT, new GridBagConstraints( 10, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets( 25, 25, 25, 25 ), 0, 0 ) );
 
@@ -706,7 +694,7 @@ public class Interfaccia {
 		Etichetta label = null;
 
 		label = new Etichetta( "Soldi :  " );
-		JTextField soldiTXT = new JTextField( "0.0" );
+		CampoTesto soldiTXT = new CampoTesto( "0.0" );
 		soldiTXT.setColumns( 4 );
 		scheda.add( label, new GridBagConstraints( 0, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets( 25, 25, 25, 25 ), 0, 0 ) );
 		scheda.add( soldiTXT, new GridBagConstraints( 1, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets( 25, 25, 25, 25 ), 0, 0 ) );
@@ -716,7 +704,7 @@ public class Interfaccia {
 
 		label = new Etichetta( "Data :" );
 		@SuppressWarnings("deprecation")
-		JTextField dataTXT = new JTextField( date.getDate() + " / " + ( date.getMonth() + 1 ) + " / " + ( date.getYear() + 1900 ) );
+		CampoTesto dataTXT = new CampoTesto( date.getDate() + " / " + ( date.getMonth() + 1 ) + " / " + ( date.getYear() + 1900 ) );
 		scheda.add( label, new GridBagConstraints( 3, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets( 25, 25, 25, 25 ), 0, 0 ) );
 		scheda.add( dataTXT, new GridBagConstraints( 4, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets( 25, 25, 25, 25 ), 0, 0 ) );
 
@@ -728,8 +716,7 @@ public class Interfaccia {
 		for ( int i = 0; i < ( arrayImportiPrendi.length ); i++ ) {
 			arrayImportiPrendi[i] = importo.parziali[i].getNome();
 		}
-		JComboBox<String> scegliImportoPrendi = new JComboBox<String>( arrayImportiPrendi );
-		scegliImportoPrendi.setFont( font );
+		ComboBox scegliImportoPrendi = new ComboBox( arrayImportiPrendi );
 		scheda.add( label, new GridBagConstraints( 6, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets( 25, 25, 25, 25 ), 0, 0 ) );
 		scheda.add( scegliImportoPrendi, new GridBagConstraints( 7, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets( 25, 25, 25, 25 ), 0, 0 ) );
 
@@ -741,8 +728,7 @@ public class Interfaccia {
 		for ( int i = 0; i < ( arrayImportiDai.length ); i++ ) {
 			arrayImportiDai[i] = importo.parziali[i].getNome();
 		}
-		JComboBox<String> scegliImportoDai = new JComboBox<String>( arrayImportiDai );
-		scegliImportoDai.setFont( font );
+		ComboBox scegliImportoDai = new ComboBox( arrayImportiDai );
 		scheda.add( label, new GridBagConstraints( 9, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets( 25, 25, 25, 25 ), 0, 0 ) );
 		scheda.add( scegliImportoDai, new GridBagConstraints( 10, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets( 25, 25, 25, 25 ), 0, 0 ) );
 
@@ -751,7 +737,7 @@ public class Interfaccia {
 
 		label = new Etichetta( "Note : " );
 		scheda.add( label, new GridBagConstraints( 12, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets( 25, 25, 25, 25 ), 0, 0 ) );
-		JTextField noteTXT = new JTextField( "" );
+		CampoTesto noteTXT = new CampoTesto( "" );
 		noteTXT.setColumns( 10 );
 		scheda.add( noteTXT, new GridBagConstraints( 13, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets( 25, 25, 25, 25 ), 0, 0 ) );
 
@@ -774,7 +760,7 @@ public class Interfaccia {
 							+ importo.parziali[cercaIndex( importo.parziali, scegliImportoDai.getSelectedItem().toString() )].getNome() + " =  "
 							+ importo.parziali[cercaIndex( importo.parziali, scegliImportoDai.getSelectedItem().toString() )].getSoldi() + "€" );
 
-					aggiungiMovimenti( "Trasferimento »  " + soldiTXT.getText() + "  /  " + dataTXT.getText() + "  /  " + scegliImportoDai.getSelectedItem().toString() + "  ->  "
+					aggiungiMovimenti( "Trasferimento »  " + soldiTXT.getText() + "€  /  " + dataTXT.getText() + "  /  " + scegliImportoDai.getSelectedItem().toString() + "  ->  "
 							+ scegliImportoPrendi.getSelectedItem().toString() + "  //  " + noteTXT.getText() );
 
 					try {

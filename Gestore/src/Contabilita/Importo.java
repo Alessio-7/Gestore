@@ -11,9 +11,9 @@ import java.awt.event.ActionListener;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 import main.Bottone;
+import main.CampoTesto;
 import main.Etichetta;
 import main.Finestra;
 
@@ -69,13 +69,13 @@ public class Importo extends JDialog {
 				Etichetta label = new Etichetta( "Nome importo : " );
 				griglia.add( label );
 
-				JTextField nomeTXT = new JTextField( "Importo " + parziali.length );
+				CampoTesto nomeTXT = new CampoTesto( "Importo " + parziali.length );
 				griglia.add( nomeTXT );
 
 				label = new Etichetta( "Quantità  soldi : " );
 				griglia.add( label );
 
-				JTextField soldiTXT = new JTextField( "100.0" );
+				CampoTesto soldiTXT = new CampoTesto( "100.0" );
 				griglia.add( soldiTXT );
 
 				label = new Etichetta( "Colore : " );
@@ -85,19 +85,19 @@ public class Importo extends JDialog {
 				rgb.setBackground( Finestra.coloreSfondo );
 				rgb.add( new Etichetta( "R :" ) );
 
-				JTextField rTXT = new JTextField();
+				CampoTesto rTXT = new CampoTesto();
 				rTXT.setText( "204" );
 				rgb.add( rTXT );
 
 				rgb.add( new Etichetta( "G :" ) );
 
-				JTextField gTXT = new JTextField();
+				CampoTesto gTXT = new CampoTesto();
 				gTXT.setText( "204" );
 				rgb.add( gTXT );
 
 				rgb.add( new Etichetta( "B :" ) );
 
-				JTextField bTXT = new JTextField();
+				CampoTesto bTXT = new CampoTesto();
 				bTXT.setText( "204" );
 				rgb.add( bTXT );
 
@@ -149,12 +149,12 @@ public class Importo extends JDialog {
 
 				Etichetta label = new Etichetta( "Nome importo : " );
 				griglia.add( label );
-				JTextField nomeTXT = new JTextField( parziali[id].getNome() );
+				CampoTesto nomeTXT = new CampoTesto( parziali[id].getNome() );
 				griglia.add( nomeTXT );
 
 				label = new Etichetta( "Quantità  soldi : " );
 				griglia.add( label );
-				JTextField soldiTXT = new JTextField( "0.0" );
+				CampoTesto soldiTXT = new CampoTesto( "0.0" );
 				griglia.add( soldiTXT );
 
 				label = new Etichetta( "Colore : " );
@@ -164,19 +164,19 @@ public class Importo extends JDialog {
 				rgb.setBackground( Finestra.coloreSfondo );
 				rgb.add( new Etichetta( "R :" ) );
 
-				JTextField rTXT = new JTextField();
+				CampoTesto rTXT = new CampoTesto();
 				rTXT.setText( "" + parziali[id].getColore().getRed() );
 				rgb.add( rTXT );
 
 				rgb.add( new Etichetta( "G :" ) );
 
-				JTextField gTXT = new JTextField();
+				CampoTesto gTXT = new CampoTesto();
 				gTXT.setText( "" + parziali[id].getColore().getGreen() );
 				rgb.add( gTXT );
 
 				rgb.add( new Etichetta( "B :" ) );
 
-				JTextField bTXT = new JTextField();
+				CampoTesto bTXT = new CampoTesto();
 				bTXT.setText( "" + parziali[id].getColore().getBlue() );
 				rgb.add( bTXT );
 

@@ -15,7 +15,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
-import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
@@ -24,6 +23,7 @@ import javax.swing.border.Border;
 
 import Contabilita.Interfaccia;
 import Homework.MainHomework;
+import Links.MainLinks;
 
 public class MainGestore {
 
@@ -41,9 +41,9 @@ public class MainGestore {
 	public static void finestraGestore() {
 		JFrame frame = new JFrame( "Scelta gestore" );
 		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-		frame.setSize( 500, 360 );
+		frame.setSize( 500, 499 );
 		frame.setResizable( false );
-		frame.setLayout( new GridLayout( 2, 1 ) );
+		frame.setLayout( new GridLayout( 3, 1 ) );
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		frame.setLocation( ( screenSize.width / 2 ) - ( frame.getWidth() / 2 ), ( screenSize.height / 2 ) - 400 );
 
@@ -62,23 +62,6 @@ public class MainGestore {
 					while ( !p.fineInserimento ) {
 					}
 				}
-
-				frame.dispose();
-
-				SystemTray tray = SystemTray.getSystemTray();
-				Image image = Toolkit.getDefaultToolkit().createImage( "some-icon.png" );
-				TrayIcon trayIcon = new TrayIcon( image, "Homework" );
-
-				trayIcon.setImageAutoSize( true );
-				trayIcon.setToolTip( "System tray icon demo" );
-				try {
-					tray.add( trayIcon );
-				} catch ( AWTException e ) {
-					e.printStackTrace();
-				}
-
-				trayIcon.displayMessage( "ATTENZIONE", "Riavviare il programma", MessageType.WARNING );
-
 			}
 		} );
 
@@ -110,6 +93,18 @@ public class MainGestore {
 		} );
 		frame.add( b );
 
+		b = new Bottone( "Links" );
+		b.addActionListener( new ActionListener() {
+
+			@Override
+			public void actionPerformed( ActionEvent arg0 ) {
+
+				MainLinks.main( null );
+				frame.dispose();
+			}
+		} );
+		frame.add( b );
+
 		frame.setVisible( true );
 	}
 
@@ -126,6 +121,10 @@ public class MainGestore {
 			}
 			case "Homework": {
 				MainHomework.main( null );
+				break;
+			}
+			case "Links": {
+				MainLinks.main( null );
 				break;
 			}
 			default: {
@@ -160,15 +159,15 @@ class Preferenze extends JDialog {
 		gl.add( label );
 
 		String[] temi = { "Chiaro", "Scuro" };
-		JComboBox<String> tema = new JComboBox<>( temi );
+		ComboBox tema = new ComboBox( temi );
 		tema.setSelectedIndex( gl.getBackground().getBlue() == 47 ? 1 : 0 );
 		gl.add( tema );
 
 		label = new Etichetta( "All'avvio: " );
 		gl.add( label );
 
-		String[] gestori = { "Scelta gestori", "Contabilità", "Homework" };
-		JComboBox<String> gestore = new JComboBox<>( gestori );
+		String[] gestori = { "Scelta gestori", "Contabilità", "Homework", "Links" };
+		ComboBox gestore = new ComboBox( gestori );
 		gestore.setSelectedItem( colori.leggiAvvio() );
 		gl.add( gestore );
 
@@ -192,6 +191,22 @@ class Preferenze extends JDialog {
 				}
 				dispose();
 				fineInserimento = true;
+
+				frame.dispose();
+
+				SystemTray tray = SystemTray.getSystemTray();
+				Image image = Toolkit.getDefaultToolkit().createImage( "some-icon.png" );
+				TrayIcon trayIcon = new TrayIcon( image, "Homework" );
+
+				trayIcon.setImageAutoSize( true );
+				trayIcon.setToolTip( "System tray icon demo" );
+				try {
+					tray.add( trayIcon );
+				} catch ( AWTException e ) {
+					e.printStackTrace();
+				}
+
+				trayIcon.displayMessage( "ATTENZIONE", "Riavviare il programma", MessageType.WARNING );
 			}
 		} );
 		setVisible( true );
