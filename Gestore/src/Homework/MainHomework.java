@@ -21,8 +21,6 @@ public class MainHomework {
 
 	final Finestra frame = new Finestra( "Homework" );
 
-	public final Font font = new Font( "Microsoft New Tai Lue", Font.PLAIN, 12 );
-
 	GestoreCompiti gCmpti;
 	GestorePreferenze gPrf;
 	Lettore lettore = new Lettore();
@@ -30,8 +28,6 @@ public class MainHomework {
 	private boolean finestraOrganizzazione;
 
 	public void creaframe() {
-
-		// Notifica.notifica( " ", " ", Notifica.AVVISO );
 
 		gCmpti = new GestoreCompiti( frame );
 		gPrf = new GestorePreferenze( frame );

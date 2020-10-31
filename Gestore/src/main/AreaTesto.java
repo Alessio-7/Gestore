@@ -9,8 +9,8 @@ public class AreaTesto extends JTextArea {
 
 	private static final long serialVersionUID = 1L;
 
-	public static Color sfondo = MainGestore.colori.leggiColori()[0];
-	public static Color foreground = MainGestore.colori.leggiColori()[1];
+	public final static Color sfondo = MainGestore.colori.leggiColori()[0];
+	public final static Color foreground = MainGestore.colori.leggiColori()[1];
 
 	public AreaTesto() {
 		setBackground( sfondo );

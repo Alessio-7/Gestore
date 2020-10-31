@@ -11,8 +11,6 @@ import main.Finestra;
 
 public class Giorno {
 
-	private MainHomework m = new MainHomework();
-
 	private String data;
 	private short giorno, mese;
 	private Compito[] compiti = null;
@@ -25,12 +23,10 @@ public class Giorno {
 
 			ritorno = new JPanel( new GridLayout( this.compiti.length + 1, 1 ) );
 
-			JTextArea t;
-
-			t = new JTextArea( "\n\n\tCompiti per il " + this.data );
-			t.setBorder( BorderFactory.createLineBorder( Finestra.coloreContainer ) );
-			t.setFont( m.font );
-			t.setEditable( false );
+			JTextArea t = new AreaTesto();
+			t.setText( "\n\n\tCompiti per il " + this.data );
+			t.setBackground( Finestra.coloreContainer );
+			t.setForeground( Finestra.coloreMenu );
 			ritorno.add( t );
 
 			for ( int i = 0; i < compiti.length; i++ ) {
@@ -43,7 +39,6 @@ public class Giorno {
 				ritorno.add( t );
 			}
 		}
-
 		return ritorno;
 	}
 

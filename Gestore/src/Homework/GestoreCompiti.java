@@ -34,10 +34,10 @@ public class GestoreCompiti extends JDialog implements Runnable {
 	private void disegnaSchermo() {
 
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		this.setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
-		this.setLayout( new BorderLayout() );
-		this.setResizable( false );
-		this.setLocation( ( (int) screenSize.getWidth() / 2 ) - 230, 500 );
+		setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
+		setLayout( new BorderLayout() );
+		setResizable( false );
+		setLocation( (int) ( screenSize.getWidth() / 2 ) - 230, 500 );
 
 	}
 
@@ -127,9 +127,7 @@ public class GestoreCompiti extends JDialog implements Runnable {
 						dispose();
 					}
 				} );
-
 				break;
-
 			}
 			case ( MODIFICA ): {
 
@@ -204,7 +202,6 @@ public class GestoreCompiti extends JDialog implements Runnable {
 						dispose();
 					}
 				} );
-
 				break;
 			}
 		}
@@ -220,15 +217,6 @@ public class GestoreCompiti extends JDialog implements Runnable {
 			compiti[i] = clone[i];
 		}
 		compiti[compiti.length - 1] = compito;
-	}
-
-	public Integer[] getIDs() {
-
-		Integer[] ritorno = new Integer[compiti.length];
-		for ( Integer i = 0; i < ritorno.length; i++ ) {
-			ritorno[i] = i;
-		}
-		return ritorno;
 	}
 
 	public void eliminaCompito( int index ) {
@@ -264,9 +252,6 @@ public class GestoreCompiti extends JDialog implements Runnable {
 
 		int giorno = c.get( Calendar.DAY_OF_MONTH );
 		int mese = ( c.get( Calendar.MONTH ) + 1 );
-		/*
-		 * int ora = c.get( Calendar.HOUR ); int minuto = c.get( Calendar.MINUTE );
-		 */
 
 		for ( int i = 0; i < compiti.length; i++ ) {
 
@@ -274,32 +259,8 @@ public class GestoreCompiti extends JDialog implements Runnable {
 			int giornoC = new Integer( data[0] );
 			int meseC = new Integer( data[1] );
 
-			/*
-			 * String[] orario = compiti[i].getOra().split( ":" ); int oraC = new Integer(
-			 * orario[0] ); int minutoC = new Integer( orario[1] );
-			 */
-
 			if ( giornoC == giorno && mese == meseC ) {
 				Notifica.notifica( "Compito in scadenza", compiti[i].getMateria() + ": " + compiti[i].getCompito(), Notifica.AVVISO );
-
-				/*
-				 * while ( true ) { c = Calendar.getInstance();
-				 * 
-				 * ora = c.get( Calendar.HOUR_OF_DAY ); minuto = c.get( Calendar.MINUTE );
-				 * 
-				 * int a = -1;
-				 * 
-				 * for ( int j = 0; j < compiti.length; j++ ) {
-				 * 
-				 * data = compiti[i].getData().split( "/" ); giornoC = new Integer( data[0] );
-				 * meseC = new Integer( data[1] );
-				 * 
-				 * orario = compiti[i].getOra().split( ":" ); oraC = new Integer( orario[0] );
-				 * minutoC = new Integer( orario[1] );
-				 * 
-				 * if ( ora == oraC && minuto == minutoC && a != j ) { a = j; Notifica.notifica(
-				 * "Scadenza compito", compiti[j].getCompito(), Notifica.ERRORE ); } } }
-				 */
 			}
 		}
 	}

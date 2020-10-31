@@ -13,9 +13,9 @@ public class Menu extends JMenu {
 
 	private static final long serialVersionUID = 1L;
 
-	public static Color sfondo = MainGestore.colori.leggiColori()[2];
-	public static Color foreground = MainGestore.colori.leggiColori()[1];
-	public static Color bordo = MainGestore.colori.leggiColori()[3];
+	public final static Color sfondo = MainGestore.colori.leggiColori()[2];
+	public final static Color foreground = MainGestore.colori.leggiColori()[1];
+	public final static Color bordo = MainGestore.colori.leggiColori()[3];
 
 	public Menu( String s ) {
 		UIManager.put( "PopupMenu.border", new LineBorder( bordo ) );
@@ -24,8 +24,8 @@ public class Menu extends JMenu {
 		setFont( new Font( "Microsoft New Tai Lue", Font.PLAIN, 12 ) );
 		setForeground( foreground );
 		setOpaque( true );
-		setBackground( sfondo );// new Color( 66, 67, 70 )
-		setBorder( BorderFactory.createCompoundBorder( BorderFactory.createLineBorder( sfondo ), BorderFactory.createEmptyBorder() ) );
+		setBackground( sfondo );
+		setBorder( BorderFactory.createLineBorder( bordo ) );
 	}
 
 	public void aggiungiSeparatore() {

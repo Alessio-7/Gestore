@@ -2,7 +2,6 @@ package Contabilita;
 
 import java.awt.AWTException;
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -19,7 +18,6 @@ import java.io.IOException;
 import java.util.Date;
 
 import javax.swing.BorderFactory;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
@@ -47,22 +45,11 @@ public class Interfaccia {
 
 	String[] movimenti = new String[0];
 
-	final Font font = new Font( "Microsoft New Tai Lue", Font.PLAIN, 12 );
-	Dimension dimensioneBottone = null;
 	public final Border border = BorderFactory.createLineBorder( Finestra.coloreContainer );
-
-	int tipoFunzione;
-	public static final int IMPORTO = 0;
-	public static final int TRANSAZIONE = 1;
-	public static final int TRASFERIMENTO_SOLDI = 2;
-	public static final int MOSTRA_MOVIMENTI = 3;
-	public static final int HOME = 4;
 
 	public void creaframe() {
 
 		importo = new Importo( frame );
-
-		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
 		ly.setBackground( Finestra.coloreMenu );
 
@@ -79,12 +66,7 @@ public class Interfaccia {
 			@Override
 			public void actionPerformed( ActionEvent arg0 ) {
 
-				if ( !( tipoFunzione == HOME ) ) {
-
-					home();
-					frame.aggiorna();
-				}
-
+				home();
 			}
 		} );
 
@@ -97,10 +79,9 @@ public class Interfaccia {
 
 				gestioneImporti();
 				frame.remove( griglia );
-				frame.aggiorna();
-
 			}
 		} );
+
 		submenu = new Menu( "Transazione" );
 		menuItem = new MenuItem( "IN" );
 		submenu.add( menuItem );
@@ -111,9 +92,9 @@ public class Interfaccia {
 
 				transazioneIn();
 				frame.remove( griglia );
-				frame.aggiorna();
 			}
 		} );
+
 		menuItem = new MenuItem( "OUT" );
 		submenu.add( menuItem );
 		menuItem.addActionListener( new ActionListener() {
@@ -123,9 +104,9 @@ public class Interfaccia {
 
 				transazioneOut();
 				frame.remove( griglia );
-				frame.aggiorna();
 			}
 		} );
+
 		menu.add( submenu );
 		menuItem = new MenuItem( "Trasferimento soldi" );
 		menu.add( menuItem );
@@ -136,9 +117,9 @@ public class Interfaccia {
 
 				trasferimentoSoldi();
 				frame.remove( griglia );
-				frame.aggiorna();
 			}
 		} );
+
 		menuItem = new MenuItem( "Mostra movimenti" );
 		menu.add( menuItem );
 		menuItem.addActionListener( new ActionListener() {
@@ -148,11 +129,11 @@ public class Interfaccia {
 
 				MostraMovimenti();
 				frame.remove( griglia );
-				frame.aggiorna();
-
 			}
 		} );
+
 		menu.aggiungiSeparatore();
+
 		menuItem = new MenuItem( "Scelta gestore" );
 		menu.add( menuItem );
 		menuItem.addActionListener( new ActionListener() {
@@ -166,28 +147,25 @@ public class Interfaccia {
 
 		frame.setMenuBar( menu );
 
-		if ( lettore.testo() > 1 ) {
+		try {
 
-			try {
+			importo.parziali = lettore.leggiDatiParziali();
 
-				importo.parziali = lettore.leggiDatiParziali();
+			movimenti = lettore.leggiDatiMovimenti();
 
-				movimenti = lettore.leggiDatiMovimenti();
+			lettore.salvaDati( importo.parziali, movimenti, importo.getColoriImporti() );
 
-				lettore.salvaDati( importo.parziali, movimenti, importo.getColoriImporti() );
-
-			} catch ( IOException e ) {
-
-				e.printStackTrace();
-			} catch ( NullPointerException e ) {
-
-				e.printStackTrace();
-			}
-
+		} catch ( IOException | NullPointerException e ) {
+			e.printStackTrace();
 		}
 
 		frame.setVisible( true );
-		home();
+
+		if ( importo.parziali.length > 0 ) {
+			home();
+		} else {
+			gestioneImporti();
+		}
 	}
 
 	public int cercaIndex( TotParziale[] array, String s ) {
@@ -215,11 +193,8 @@ public class Interfaccia {
 
 		frame.wp.setLayout( new WrapLayout() );
 
-		tipoFunzione = HOME;
+		AreaTesto t = new AreaTesto();
 
-		AreaTesto t;
-
-		t = new AreaTesto();
 		t.setText( "Somma totale :\t" + importo.sommaParziali() + "€" );
 		t.setBorder( BorderFactory.createCompoundBorder( border, BorderFactory.createEmptyBorder( 50, 50, 50, 50 ) ) );
 		t.setEditable( false );
@@ -228,8 +203,7 @@ public class Interfaccia {
 		for ( int i = 0; i < importo.parziali.length; i++ ) {
 
 			t = new AreaTesto();
-			Border bordoColorato = BorderFactory.createLineBorder( importo.parziali[i].getColore(), 2 );
-			t.setBorder( BorderFactory.createCompoundBorder( bordoColorato, BorderFactory.createEmptyBorder( 50, 50, 50, 50 ) ) );
+			t.setBorder( BorderFactory.createCompoundBorder( BorderFactory.createLineBorder( importo.parziali[i].getColore(), 2 ), BorderFactory.createEmptyBorder( 50, 50, 50, 50 ) ) );
 			t.setText( importo.generaParziali( i ) );
 			t.setEditable( false );
 
@@ -305,8 +279,6 @@ public class Interfaccia {
 
 	public void gestioneImporti() {
 
-		tipoFunzione = IMPORTO;
-
 		try {
 			ly.removeAll();
 			ly.setVisible( false );
@@ -317,9 +289,8 @@ public class Interfaccia {
 		frame.wp.setLayout( new WrapLayout() );
 
 		JPanel g;
-		AreaTesto t;
+		AreaTesto t = new AreaTesto();
 
-		t = new AreaTesto();
 		t.setText( "Somma totale :\t" + importo.sommaParziali() + "€" );
 		t.setBorder( BorderFactory.createCompoundBorder( border, BorderFactory.createEmptyBorder( 50, 50, 50, 50 ) ) );
 		t.setEditable( false );
@@ -437,8 +408,6 @@ public class Interfaccia {
 
 	public void transazioneIn() {
 
-		tipoFunzione = TRANSAZIONE;
-
 		try {
 			ly.removeAll();
 			ly.setVisible( true );
@@ -543,8 +512,6 @@ public class Interfaccia {
 			frame.wp.add( t, new GridBagConstraints( 0, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets( 10, 0, 0, 0 ), 0, 0 ) );
 
 		} catch ( NullPointerException e ) {
-			frame.revalidate();
-
 			displayError( "Aggiungere un nuovo importo" );
 		}
 
@@ -552,8 +519,6 @@ public class Interfaccia {
 	}
 
 	public void transazioneOut() {
-
-		tipoFunzione = TRANSAZIONE;
 
 		try {
 			ly.removeAll();
@@ -564,7 +529,7 @@ public class Interfaccia {
 
 		frame.wp.setLayout( new GridBagLayout() );
 
-		JPanel scheda = new JPanel( new GridBagLayout() );//
+		JPanel scheda = new JPanel( new GridBagLayout() );
 		scheda.setBorder( border );
 		scheda.setBackground( Finestra.coloreSfondo );
 
@@ -665,8 +630,6 @@ public class Interfaccia {
 
 			frame.wp.add( t, new GridBagConstraints( 0, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets( 10, 0, 0, 0 ), 0, 0 ) );
 		} catch ( NullPointerException e ) {
-			frame.aggiorna();
-
 			displayError( "Aggiungere un nuovo importo" );
 		}
 
@@ -674,8 +637,6 @@ public class Interfaccia {
 	}
 
 	public void trasferimentoSoldi() {
-
-		tipoFunzione = TRASFERIMENTO_SOLDI;
 
 		try {
 			ly.removeAll();
@@ -808,8 +769,6 @@ public class Interfaccia {
 			frame.wp.add( t, new GridBagConstraints( 0, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets( 10, 0, 0, 0 ), 0, 0 ) );
 
 		} catch ( NullPointerException e ) {
-			frame.aggiorna();
-
 			displayError( "Aggiungere nuovi importi" );
 		}
 
@@ -817,8 +776,6 @@ public class Interfaccia {
 	}
 
 	public void MostraMovimenti() {
-
-		tipoFunzione = MOSTRA_MOVIMENTI;
 
 		try {
 			ly.removeAll();
@@ -832,8 +789,6 @@ public class Interfaccia {
 
 		JPanel g = new JPanel( new GridLayout( movimenti.length, 1 ) );
 		AreaTesto t;
-		Etichetta lb = new Etichetta( "" );
-		lb.setBackground( Finestra.coloreSfondo );
 
 		for ( int i = movimenti.length - 1; i > -1; i-- ) {
 
@@ -885,7 +840,6 @@ public class Interfaccia {
 
 				Interfaccia interfaccia = new Interfaccia();
 				interfaccia.creaframe();
-
 			}
 		} );
 	}

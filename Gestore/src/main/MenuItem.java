@@ -10,8 +10,8 @@ public class MenuItem extends JMenuItem {
 
 	private static final long serialVersionUID = 1L;
 
-	public static Color sfondo = MainGestore.colori.leggiColori()[2];
-	public static Color foreground = MainGestore.colori.leggiColori()[1];
+	public final static Color sfondo = MainGestore.colori.leggiColori()[2];
+	public final static Color foreground = MainGestore.colori.leggiColori()[1];
 
 	public MenuItem( String s ) {
 		setText( s );

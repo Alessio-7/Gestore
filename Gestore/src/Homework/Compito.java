@@ -27,11 +27,11 @@ public class Compito {
 		String ritorno = null;
 
 		if ( this.difficoltà == SEMPLICE ) {
-			ritorno = "\n" + this.materia + ":\t" + this.compito + "\t\t\n\tSemplice    " + this.ora + "    " + this.data + "\n";
+			ritorno = "\n" + this.materia + " :\t" + this.compito + "\t\t\n\tSemplice    " + this.ora + "    " + this.data + "\n";
 		} else if ( this.difficoltà == NORMALE ) {
-			ritorno = "\n" + this.materia + ":\t" + this.compito + "\t\t\n\tNormale     " + this.ora + "    " + this.data + "\n";
+			ritorno = "\n" + this.materia + " :\t" + this.compito + "\t\t\n\tNormale     " + this.ora + "    " + this.data + "\n";
 		} else {
-			ritorno = "\n" + this.materia + ":\t" + this.compito + "\t\t\n\tDifficile   " + this.ora + "    " + this.data + "\n";
+			ritorno = "\n" + this.materia + " :\t" + this.compito + "\t\t\n\tDifficile   " + this.ora + "    " + this.data + "\n";
 		}
 		return ritorno;
 	}
@@ -77,7 +77,8 @@ public class Compito {
 	}
 
 	public static String[] materie() {
-		return !( Lettore.leggimaterie().length == 1 && Lettore.leggimaterie()[0].equals( "" ) ) ? Lettore.leggimaterie() : null;
+		String[] materie = Lettore.leggimaterie();
+		return !( materie.length == 1 && materie[0].equals( "" ) ) ? materie : null;
 	}
 
 }

@@ -27,13 +27,7 @@ import Links.MainLinks;
 
 public class MainGestore {
 
-	public final Color coloreSfondoDark = new Color( 47, 47, 47 );
-	public final Color coloreMenuBarDark = new Color( 66, 67, 70 );
-	public final Color coloreTestoDark = new Color( 255, 255, 255 );
-	public final Color coloreBottoneDark = new Color( 30, 30, 30 );
-
 	public final Border border = BorderFactory.createLineBorder( Color.WHITE );
-
 	public final Font font = new Font( "Microsoft New Tai Lue", Font.PLAIN, 12 );
 
 	public static Lettore colori = new Lettore();
@@ -155,7 +149,7 @@ class Preferenze extends JDialog {
 
 		JPanel gl = new JPanel( new GridLayout( 2, 2 ) );
 		gl.setBackground( colori.leggiColori()[0] );
-		Etichetta label = new Etichetta( "Tema: " );
+		Etichetta label = new Etichetta( "Tema : " );
 		gl.add( label );
 
 		String[] temi = { "Chiaro", "Scuro" };
@@ -163,7 +157,7 @@ class Preferenze extends JDialog {
 		tema.setSelectedIndex( gl.getBackground().getBlue() == 47 ? 1 : 0 );
 		gl.add( tema );
 
-		label = new Etichetta( "All'avvio: " );
+		label = new Etichetta( "All'avvio : " );
 		gl.add( label );
 
 		String[] gestori = { "Scelta gestori", "Contabilità", "Homework", "Links" };

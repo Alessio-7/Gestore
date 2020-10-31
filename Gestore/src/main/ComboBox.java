@@ -10,12 +10,13 @@ public class ComboBox extends JComboBox<Object> {
 		super( s );
 
 		setFont( Etichetta.font );
+		setFocusable( false );
 	}
 
 	public ComboBox( Integer[] i ) {
 		super( i );
 
 		setFont( Etichetta.font );
+		setFocusable( false );
 	}
-
 }

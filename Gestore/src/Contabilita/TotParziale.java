@@ -24,41 +24,32 @@ public class TotParziale {
 	}
 
 	public String getNome() {
-
 		return nome;
 	}
 
 	public void setNome( String nome ) {
-
 		this.nome = nome;
 	}
 
 	public double getSoldi() {
-
-		soldi = Math.round( soldi * 100 );
-		soldi /= 100;
-		return soldi;
+		return arrotondaSoldi( soldi );
 	}
 
 	public void setSoldi( double soldi ) {
-
-		this.soldi = soldi;
-		soldi = Math.round( soldi * 100 );
-		soldi /= 100;
+		this.soldi = arrotondaSoldi( soldi );
 	}
 
 	public void addSoldi( double soldi ) {
-
-		this.soldi += soldi;
-		soldi = Math.round( soldi * 100 );
-		soldi /= 100;
+		this.soldi = arrotondaSoldi( this.soldi += soldi );
 	}
 
 	public void diminuisciSoldi( double soldi ) {
+		this.soldi = arrotondaSoldi( soldi -= soldi );
+	}
 
-		this.soldi -= soldi;
+	public double arrotondaSoldi( double soldi ) {
 		soldi = Math.round( soldi * 100 );
 		soldi /= 100;
-
+		return soldi;
 	}
 }

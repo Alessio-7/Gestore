@@ -21,17 +21,13 @@ public class Importo extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 
-	// valore booleano per indicare di aver finito inserimento
 	boolean fineInserimento = false;
 
 	TotParziale[] parziali = new TotParziale[0];
-	Interfaccia interfaccia = new Interfaccia();
 
 	public static final int AGGIUNGI = 0;
 	public static final int ELIMINA = 1;
 	public static final int CORREGGI = 2;
-
-	int nOggetti = 6;
 
 	boolean operazioneSvolta = false;
 	String nome = "";
@@ -42,10 +38,10 @@ public class Importo extends JDialog {
 	public void disegnaSchermo() {
 
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		this.setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
-		this.setLayout( new BorderLayout() );
-		this.setResizable( false );
-		this.setLocation( ( (int) screenSize.getWidth() / 2 ) - 230, 500 );
+		setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
+		setLayout( new BorderLayout() );
+		setResizable( false );
+		setLocation( (int) ( ( screenSize.getWidth() / 2 ) - 230 ), 500 );
 
 	}
 
@@ -116,28 +112,21 @@ public class Importo extends JDialog {
 
 							TotParziale parziale1 = new TotParziale( nomeTXT.getText(), new Double( soldiTXT.getText() ),
 									new Color( new Integer( rTXT.getText() ), new Integer( gTXT.getText() ), new Integer( bTXT.getText() ) ) );
-							aggiungiArrayParziali();
 
-							if ( parziali.length > 0 ) {
-								parziali[parziali.length - 1] = parziale1;
-							} else {
-								parziali[parziali.length - 1] = parziale1;
-							}
+							aggiungiArrayParziali( parziale1 );
 
 							operazioneSvolta = true;
-
 							fineInserimento = true;
 
 							dispose();
 						}
 					}
 				} );
-
 				break;
-
 			}
 			case ( CORREGGI ): {
 				operazioneSvolta = false;
+
 				JPanel griglia = new JPanel( new GridLayout( 3, 2 ) );
 				griglia.setBackground( Finestra.coloreSfondo );
 
@@ -238,13 +227,15 @@ public class Importo extends JDialog {
 		return ritorno;
 	}
 
-	public void aggiungiArrayParziali() {
+	public void aggiungiArrayParziali( TotParziale parziale ) {
 
 		TotParziale[] array = parziali;
 		parziali = new TotParziale[parziali.length + 1];
 		for ( int i = 0; i < ( parziali.length - 1 ); i++ ) {
 			parziali[i] = array[i];
 		}
+
+		parziali[parziali.length - 1] = parziale;
 	}
 
 	public double sommaParziali() {
@@ -262,36 +253,6 @@ public class Importo extends JDialog {
 		somma /= 100;
 
 		return somma;
-	}
-
-	public String[] generaOggetti() {
-
-		int a = 0;
-
-		String[] oggetti = new String[parziali.length + nOggetti];
-
-		oggetti[a] = ( "" );
-
-		a++;
-		oggetti[a] = "Importi attuali : ";
-
-		a++;
-		oggetti[a] = "";
-
-		for ( int i = 0; i < parziali.length; i++ ) {
-			if ( !generaParziali( i ).equals( "" ) ) {
-				a++;
-				oggetti[a] = "\t" + generaParziali( i );
-			}
-		}
-
-		a++;
-		oggetti[a] = "";
-
-		a++;
-		oggetti[a] = "Importo totale :  " + sommaParziali();
-
-		return oggetti;
 	}
 
 	public Color[] getColoriImporti() {

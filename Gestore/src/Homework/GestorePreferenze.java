@@ -28,7 +28,6 @@ public class GestorePreferenze extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 
-	MainHomework m = new MainHomework();
 	boolean fineInserimento = false;
 
 	double maxDifficoltà = 2;
@@ -37,10 +36,10 @@ public class GestorePreferenze extends JDialog {
 	public void disegnaSchermo() {
 
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		this.setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
-		this.setLayout( new BorderLayout() );
-		this.setResizable( false );
-		this.setLocation( ( (int) screenSize.getWidth() / 2 ) - 230, 500 );
+		setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
+		setLayout( new BorderLayout() );
+		setResizable( false );
+		setLocation( ( (int) screenSize.getWidth() / 2 ) - 230, 500 );
 	}
 
 	public void operazione() {
@@ -70,7 +69,7 @@ public class GestorePreferenze extends JDialog {
 		anticipo.setSelectedIndex( anticipoCompiti );
 		griglia.add( anticipo );
 
-		label = new Etichetta( "Materie: " );
+		label = new Etichetta( "Materie : " );
 		griglia.add( label );
 		Bottone gestioneMaterie = new Bottone( "Gestione materie" );
 		griglia.add( gestioneMaterie );
@@ -356,7 +355,7 @@ class GestoreMaterie extends JDialog {
 
 	public boolean fineInserimento = false;
 
-	Bottone imposta = new Bottone( "Imposta" );
+	private Bottone imposta = new Bottone( "Imposta" );
 	private JPanel grigliaMaterie = new JPanel( new GridBagLayout() );
 
 	public GestoreMaterie( JDialog frame ) {
@@ -382,7 +381,6 @@ class GestoreMaterie extends JDialog {
 			public void actionPerformed( ActionEvent arg0 ) {
 				dispose();
 				fineInserimento = true;
-
 			}
 		} );
 
@@ -430,7 +428,7 @@ class GestoreMaterie extends JDialog {
 
 							materie = aggiungiMateria( materie, ( (Etichetta) ( (JPanel) grigliaMaterie.getComponent( i ) ).getComponent( 0 ) ).getText() );
 						}
-						Lettore.salvaMaterie( materie );// materia1,materia2,materia3,
+						Lettore.salvaMaterie( materie );
 
 						grigliaMaterie.repaint();
 						grigliaMaterie.revalidate();
@@ -462,7 +460,7 @@ class GestoreMaterie extends JDialog {
 				JPanel layout = new JPanel( new GridBagLayout() );
 				layout.setBackground( Finestra.coloreSfondo );
 
-				layout.add( new Etichetta( "Nome materia:" ),
+				layout.add( new Etichetta( "Nome materia :" ),
 						new GridBagConstraints( 0, 0, 1, 1, 0.0, 0.0, GridBagConstraints.LINE_START, GridBagConstraints.NONE, new Insets( 5, 5, 5, 5 ), 0, 0 ) );
 
 				CampoTesto nome = new CampoTesto();

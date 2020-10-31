@@ -18,9 +18,9 @@ public class Finestra extends JFrame {
 	public PannelloScorrimento sc = new PannelloScorrimento( wp );
 	public JMenuBar menuBar = new JMenuBar();
 
-	public static Color coloreSfondo = MainGestore.colori.leggiColori()[0];
-	public static Color coloreMenu = MainGestore.colori.leggiColori()[2];
-	public static Color coloreContainer = MainGestore.colori.leggiColori()[5];
+	public final static Color coloreSfondo = MainGestore.colori.leggiColori()[0];
+	public final static Color coloreMenu = MainGestore.colori.leggiColori()[2];
+	public final static Color coloreContainer = MainGestore.colori.leggiColori()[5];
 
 	public Finestra( String nome ) {
 		setTitle( nome );

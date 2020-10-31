@@ -35,9 +35,7 @@ import main.MenuItem;
 public class MainLinks {
 
 	final Finestra frame = new Finestra( "Links" );
-
 	GestoreLink gLink = new GestoreLink( frame );
-
 	Lettore lettore = new Lettore();
 
 	public void creaFrame() {
