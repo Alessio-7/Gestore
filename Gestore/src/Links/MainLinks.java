@@ -12,12 +12,15 @@ import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 
 import javax.swing.BorderFactory;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 
 import Homework.GestoreCompiti;
 import main.AreaTesto;
@@ -127,6 +130,8 @@ public class MainLinks {
 			Bottone bottone = new Bottone( gLink.links[i].getHTMLComponent() );
 			bottone.setBorder( BorderFactory.createCompoundBorder( BorderFactory.createLineBorder( gLink.links[i].getColore(), 3 ), BorderFactory.createEmptyBorder( 0, 20, 20, 20 ) ) );
 			bottone.setName( "" + i );
+
+			bottone.addMouseListener( new AdattatoreMouse( Integer.parseInt( bottone.getName() ) ) );
 
 			bottone.addActionListener( new ActionListener() {
 
@@ -455,6 +460,76 @@ public class MainLinks {
 			} );
 			setVisible( true );
 			fineInserimento = false;
+		}
+	}
+
+	class AdattatoreMouse extends MouseAdapter {
+		JPopupMenu popup = new JPopupMenu();
+
+		public AdattatoreMouse( int id ) {
+
+			MenuItem menuItem = new MenuItem( "Copia" );
+			menuItem.addActionListener( new ActionListener() {
+
+				@Override
+				public void actionPerformed( ActionEvent arg0 ) {
+					StringSelection stringSelection = new StringSelection( gLink.links[id].getLink() );
+					Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+					clipboard.setContents( stringSelection, null );
+				}
+			} );
+			popup.add( menuItem );
+
+			menuItem = new MenuItem( "Apri" );
+			menuItem.addActionListener( new ActionListener() {
+
+				@Override
+				public void actionPerformed( ActionEvent arg0 ) {
+					String link = gLink.links[id].getLink();
+
+					try {
+						Runtime.getRuntime().exec( "explorer.exe /open," + link );
+					} catch ( IOException e ) {
+						e.printStackTrace();
+					}
+				}
+			} );
+			popup.add( menuItem );
+
+			popup.add( Menu.getSeparatore() );
+
+			menuItem = new MenuItem( "Modifica" );
+			menuItem.addActionListener( new ActionListener() {
+
+				@Override
+				public void actionPerformed( ActionEvent arg0 ) {
+					gLink.operazione( GestoreLink.MODIFICA, id );
+					gLink.setVisible( true );
+					if ( gLink.isDisplayable() ) {
+						while ( !gLink.fineInserimento ) {
+						}
+					}
+
+					try {
+						lettore.salvaDati( gLink.links, gLink.coloriLinks() );
+					} catch ( IOException e ) {
+						e.printStackTrace();
+					}
+
+					home();
+				}
+			} );
+			popup.add( menuItem );
+
+		}
+
+		public void mouseReleased( MouseEvent me ) {
+			showPopup( me ); // showPopup() is our own user-defined method
+		}
+
+		void showPopup( MouseEvent me ) {
+			if ( me.isPopupTrigger() )
+				popup.show( me.getComponent(), me.getX(), me.getY() );
 		}
 	}
 }

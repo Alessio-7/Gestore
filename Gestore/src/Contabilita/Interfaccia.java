@@ -840,7 +840,6 @@ public class Interfaccia {
 			t = new AreaTesto();
 			t.setText( "\n\t\t" + ( i + 1 ) + " • " + movimenti[i] + "\t\t\n" );
 			t.setEditable( false );
-			// t.setBorder( border );
 
 			g.add( t );
 		}

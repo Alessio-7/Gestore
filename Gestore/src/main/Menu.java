@@ -29,10 +29,15 @@ public class Menu extends JMenu {
 	}
 
 	public void aggiungiSeparatore() {
+		add( getSeparatore() );
+	}
+
+	public static JSeparator getSeparatore() {
+
 		JSeparator sep = new JSeparator();
 		sep.setForeground( foreground );
 		sep.setBackground( sfondo );
 
-		add( sep );
+		return sep;
 	}
 }

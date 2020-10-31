@@ -23,7 +23,6 @@ public class GestoreCompiti extends JDialog implements Runnable {
 
 	private static final long serialVersionUID = 1L;
 
-	private MainHomework m = new MainHomework();
 	Compito[] compiti = new Compito[0];
 
 	boolean fineInserimento = false;
@@ -78,7 +77,11 @@ public class GestoreCompiti extends JDialog implements Runnable {
 				griglia.add( label );
 				Integer[] giorni = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31 };
 				ComboBox giorno = new ComboBox( giorni );
-				giorno.setSelectedIndex( date.getDate() );
+				try {
+					giorno.setSelectedIndex( date.getDate() );
+				} catch ( IllegalArgumentException e ) {
+					giorno.setSelectedIndex( 30 );
+				}
 				Integer[] mesi = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
 				ComboBox mese = new ComboBox( mesi );
 				mese.setSelectedIndex( date.getMonth() );
