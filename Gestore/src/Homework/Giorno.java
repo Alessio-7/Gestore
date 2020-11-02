@@ -26,7 +26,7 @@ public class Giorno {
 			JTextArea t = new AreaTesto();
 			t.setText( "\n\n\tCompiti per il " + this.data );
 			t.setBackground( Finestra.coloreContainer );
-			t.setForeground( Finestra.coloreMenu );
+			t.setForeground( Finestra.coloreSfondo );
 			ritorno.add( t );
 
 			for ( int i = 0; i < compiti.length; i++ ) {
