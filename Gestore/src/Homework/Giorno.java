@@ -1,6 +1,8 @@
 package Homework;
 
-import java.awt.GridLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -21,13 +23,13 @@ public class Giorno {
 
 		if ( this.compiti.length > 0 ) {
 
-			ritorno = new JPanel( new GridLayout( this.compiti.length + 1, 1 ) );
+			ritorno = new JPanel( new GridBagLayout() );
 
 			JTextArea t = new AreaTesto();
-			t.setText( "\n\n\tCompiti per il " + this.data );
+			t.setText( "\n\n\tCompiti per il " + this.data + "\n\n" );
 			t.setBackground( Finestra.coloreContainer );
 			t.setForeground( Finestra.coloreSfondo );
-			ritorno.add( t );
+			ritorno.add( t, new GridBagConstraints( 0, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets( 0, 0, 0, 0 ), 0, 0 ) );
 
 			for ( int i = 0; i < compiti.length; i++ ) {
 
@@ -35,8 +37,7 @@ public class Giorno {
 				t.setBorder( BorderFactory.createCompoundBorder( BorderFactory.createLineBorder( Finestra.coloreContainer ), BorderFactory.createEmptyBorder( 10, 10, 10, 10 ) ) );
 				t.setText( compiti[i].getComponent() );
 				t.setEditable( false );
-
-				ritorno.add( t );
+				ritorno.add( t, new GridBagConstraints( 0, i + 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets( 0, 0, 0, 0 ), 0, 0 ) );
 			}
 		}
 		return ritorno;

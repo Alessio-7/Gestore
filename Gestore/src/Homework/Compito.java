@@ -27,13 +27,31 @@ public class Compito {
 		String ritorno = null;
 
 		if ( this.difficoltà == SEMPLICE ) {
-			ritorno = "\n" + this.materia + " :\t" + this.compito + "\t\t\n\tSemplice    " + this.ora + "    " + this.data + "\n";
+			ritorno = "\n" + this.materia + " :\t" + formattaCompito() + "\t\n\n\tSemplice    " + this.ora + "    " + this.data + "\t\n";
 		} else if ( this.difficoltà == NORMALE ) {
-			ritorno = "\n" + this.materia + " :\t" + this.compito + "\t\t\n\tNormale     " + this.ora + "    " + this.data + "\n";
+			ritorno = "\n" + this.materia + " :\t" + formattaCompito() + "\t\n\n\tNormale     " + this.ora + "    " + this.data + "\t\n";
 		} else {
-			ritorno = "\n" + this.materia + " :\t" + this.compito + "\t\t\n\tDifficile   " + this.ora + "    " + this.data + "\n";
+			ritorno = "\n" + this.materia + " :\t" + formattaCompito() + "\t\n\n\tDifficile   " + this.ora + "    " + this.data + "\t\n";
 		}
 		return ritorno;
+	}
+
+	private String formattaCompito() {
+		String insert = "\n\t";
+
+		StringBuilder builder = new StringBuilder( this.compito.length() + insert.length() * ( this.compito.length() / 25 ) + 1 );
+
+		int index = 0;
+		String prefix = "";
+		while ( index < this.compito.length() ) {
+			// Don't put the insert in the very first iteration.
+			// This is easier than appending it *after* each substring
+			builder.append( prefix );
+			prefix = insert;
+			builder.append( this.compito.substring( index, Math.min( index + 25, this.compito.length() ) ) );
+			index += 25;
+		}
+		return builder.toString();
 	}
 
 	public String getMateria() {

@@ -1,7 +1,9 @@
 package Homework;
 
 import java.awt.Font;
-import java.awt.GridLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -121,13 +123,13 @@ public class MainHomework {
 
 		for ( int i = 0; i < gCmpti.compiti.length; i++ ) {
 
-			g = new JPanel( new GridLayout( 2, 1 ) );
+			g = new JPanel( new GridBagLayout() );
 			g.setBorder( BorderFactory.createCompoundBorder( BorderFactory.createLineBorder( Finestra.coloreContainer ), BorderFactory.createEmptyBorder( 10, 20, 0, 10 ) ) );
 			g.setBackground( Finestra.coloreSfondo );
 			t = new AreaTesto();
 			t.setText( gCmpti.compiti[i].getComponent() );
 			t.setEditable( false );
-			g.add( t );
+			g.add( t, new GridBagConstraints( 0, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets( 0, 0, 0, 0 ), 0, 0 ) );
 
 			Bottone modifica = new Bottone( "Modifica" );
 			modifica.setName( "" + i );
@@ -179,7 +181,7 @@ public class MainHomework {
 			gl.add( modifica );
 			gl.add( elimina );
 			gl.setBackground( Finestra.coloreSfondo );
-			g.add( gl );
+			g.add( gl, new GridBagConstraints( 0, 1, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets( 0, 0, 25, 0 ), 0, 0 ) );
 
 			frame.wp.add( g );
 		}
