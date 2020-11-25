@@ -2,6 +2,7 @@ package Contabilita;
 
 import java.awt.AWTException;
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -18,6 +19,8 @@ import java.io.IOException;
 import java.util.Date;
 
 import javax.swing.BorderFactory;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
@@ -77,8 +80,11 @@ public class Interfaccia {
 			@Override
 			public void actionPerformed( ActionEvent arg0 ) {
 
+				try {
+					frame.remove( griglia );
+				} catch ( NullPointerException e ) {
+				}
 				gestioneImporti();
-				frame.remove( griglia );
 			}
 		} );
 
@@ -90,8 +96,11 @@ public class Interfaccia {
 			@Override
 			public void actionPerformed( ActionEvent arg0 ) {
 
+				try {
+					frame.remove( griglia );
+				} catch ( NullPointerException e ) {
+				}
 				transazioneIn();
-				frame.remove( griglia );
 			}
 		} );
 
@@ -102,8 +111,11 @@ public class Interfaccia {
 			@Override
 			public void actionPerformed( ActionEvent arg0 ) {
 
+				try {
+					frame.remove( griglia );
+				} catch ( NullPointerException e ) {
+				}
 				transazioneOut();
-				frame.remove( griglia );
 			}
 		} );
 
@@ -115,8 +127,11 @@ public class Interfaccia {
 			@Override
 			public void actionPerformed( ActionEvent arg0 ) {
 
+				try {
+					frame.remove( griglia );
+				} catch ( NullPointerException e ) {
+				}
 				trasferimentoSoldi();
-				frame.remove( griglia );
 			}
 		} );
 
@@ -127,8 +142,11 @@ public class Interfaccia {
 			@Override
 			public void actionPerformed( ActionEvent arg0 ) {
 
+				try {
+					frame.remove( griglia );
+				} catch ( NullPointerException e ) {
+				}
 				MostraMovimenti();
-				frame.remove( griglia );
 			}
 		} );
 
@@ -211,6 +229,8 @@ public class Interfaccia {
 		}
 
 		griglia = new JPanel( new GridLayout( 5, 1 ) );
+		griglia.setBorder( BorderFactory.createEmptyBorder() );
+		griglia.setBackground( Finestra.coloreSfondo );
 		Bottone bottone;
 
 		bottone = new Bottone( "Gestione importi" );
@@ -389,7 +409,7 @@ public class Interfaccia {
 					}
 				}
 				if ( importo.operazioneSvolta == true ) {
-					aggiungiMovimenti( "Aggiunto un nuovo importo » " + importo.nome + importo.soldi );
+					aggiungiMovimenti( "Aggiunto un nuovo importo » " + importo.nome + importo.soldi + "€" );
 				}
 
 				try {
@@ -787,16 +807,63 @@ public class Interfaccia {
 
 		frame.wp.setLayout( new WrapLayout() );
 
-		JPanel g = new JPanel( new GridLayout( movimenti.length, 1 ) );
+		JPanel g = new JPanel( new GridBagLayout() );
+		g.setBackground( Finestra.coloreSfondo );
 		AreaTesto t;
 
-		for ( int i = movimenti.length - 1; i > -1; i-- ) {
+		for ( int i = movimenti.length - 1, k = 0; i > -1; i--, k++ ) {
 
 			t = new AreaTesto();
-			t.setText( "\n\t\t" + ( i + 1 ) + " • " + movimenti[i] + "\t\t\n" );
+			t.setText( ( i + 1 ) + " • " + movimenti[i] );
 			t.setEditable( false );
 
-			g.add( t );
+			JPanel bottoni = new JPanel( new WrapLayout() );
+			bottoni.setBackground( Finestra.coloreSfondo );
+			bottoni.setBorder( BorderFactory.createEmptyBorder() );
+
+			Bottone modifica = new Bottone( "Modifica" );
+			modifica.setName( "" + i );
+			modifica.addActionListener( new ActionListener() {
+
+				@Override
+				public void actionPerformed( ActionEvent arg0 ) {
+					new ModificaMovimenti( new Integer( modifica.getName() ) );
+				}
+			} );
+			bottoni.add( modifica );
+
+			Bottone rimuovi = new Bottone( "Rimuovi" );
+			rimuovi.setName( "" + i );
+			rimuovi.addActionListener( new ActionListener() {
+
+				@Override
+				public void actionPerformed( ActionEvent arg0 ) {
+
+					String[] anotherArray = new String[movimenti.length - 1];
+
+					for ( int i = 0, k = 0; i < movimenti.length; i++ ) {
+
+						if ( i == new Integer( rimuovi.getName() ) ) {
+							continue;
+						}
+						anotherArray[k++] = movimenti[i];
+					}
+
+					movimenti = anotherArray;
+
+					MostraMovimenti();
+
+					try {
+						lettore.salvaDati( importo.parziali, movimenti, importo.getColoriImporti() );
+					} catch ( IOException | NullPointerException e ) {
+					}
+
+				}
+			} );
+			bottoni.add( rimuovi );
+
+			g.add( t, new GridBagConstraints( 0, k, 1, 1, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets( 10, 0, 10, 0 ), 0, 0 ) );
+			g.add( bottoni, new GridBagConstraints( 1, k, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets( 10, 0, 10, 0 ), 0, 0 ) );
 		}
 
 		frame.wp.add( g );
@@ -844,4 +911,50 @@ public class Interfaccia {
 		} );
 	}
 
+	class ModificaMovimenti extends JDialog {
+
+		private static final long serialVersionUID = 1L;
+
+		private Bottone modifica = new Bottone( "Modifica" );
+		private JPanel griglia = new JPanel( new GridBagLayout() );
+
+		public ModificaMovimenti( int id ) {
+
+			super( frame, "", true );
+
+			Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+			setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
+			setLayout( new BorderLayout() );
+			setResizable( false );
+			setLocation( ( (int) screenSize.getWidth() / 2 ) - 250, ( (int) screenSize.getHeight() / 2 ) - 75 );
+			setSize( 500, 150 );
+			setTitle( "Modifica movimento" );
+
+			griglia.setBackground( Finestra.coloreSfondo );
+			add( griglia, BorderLayout.CENTER );
+
+			add( modifica, BorderLayout.SOUTH );
+
+			CampoTesto testo = new CampoTesto();
+			testo.setText( movimenti[id] );
+			testo.setColumns( 40 );
+			griglia.add( testo, new GridBagConstraints( 0, 0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets( 0, 0, 0, 0 ), 0, 0 ) );
+
+			modifica.addActionListener( new ActionListener() {
+
+				@Override
+				public void actionPerformed( ActionEvent arg0 ) {
+					dispose();
+					movimenti[id] = testo.getText();
+					MostraMovimenti();
+
+					try {
+						lettore.salvaDati( importo.parziali, movimenti, importo.getColoriImporti() );
+					} catch ( IOException | NullPointerException e ) {
+					}
+				}
+			} );
+			setVisible( true );
+		}
+	}
 }

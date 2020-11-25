@@ -131,43 +131,45 @@ public class Lettore {
 		String nome;
 		double soldi;
 		int c = 0;
-
-		char[] in = new char[(int) f.length()];
-		FileReader r = new FileReader( f );
-		BufferedReader b = new BufferedReader( r );
-		b.read( in );
-
-		testoIntero = String.copyValueOf( in );
-
-		volte = new Integer( testoIntero.substring( 0, testoIntero.indexOf( '#' ) ) );
-		importi = testoIntero.substring( testoIntero.indexOf( '#' ) + 1, ( testoIntero.indexOf( "@" ) ) );
 		parziali = new TotParziale[0];
-		Color[] colori = leggiColoriImporti( volte );
 
-		for ( int i = 0; i < volte; i++ ) {
+		if ( f.length() > 0 ) {
 
-			c = 0;
+			char[] in = new char[(int) f.length()];
+			FileReader r = new FileReader( f );
+			BufferedReader b = new BufferedReader( r );
+			b.read( in );
 
-			c += 2;
+			testoIntero = String.copyValueOf( in );
 
-			nome = importi.substring( c, ( importi.indexOf( ":" ) ) );
-			c = importi.indexOf( ":" ) + 1;
+			volte = new Integer( testoIntero.substring( 0, testoIntero.indexOf( '#' ) ) );
+			importi = testoIntero.substring( testoIntero.indexOf( '#' ) + 1, ( testoIntero.indexOf( "@" ) ) );
+			Color[] colori = leggiColoriImporti( volte );
 
-			soldi = new Double( importi.substring( c, ( importi.indexOf( ";" ) ) ) );
-			c = importi.indexOf( ";" );
+			for ( int i = 0; i < volte; i++ ) {
 
-			importi = importi.substring( c + 1, importi.length() );
+				c = 0;
 
-			aggiungiArrayParziali();
-			TotParziale parziale = new TotParziale( nome, soldi, colori[i] );
-			parziali[i] = parziale;
+				c += 2;
+
+				nome = importi.substring( c, ( importi.indexOf( ":" ) ) );
+				c = importi.indexOf( ":" ) + 1;
+
+				soldi = new Double( importi.substring( c, ( importi.indexOf( ";" ) ) ) );
+				c = importi.indexOf( ";" );
+
+				importi = importi.substring( c + 1, importi.length() );
+
+				aggiungiArrayParziali();
+				TotParziale parziale = new TotParziale( nome, soldi, colori[i] );
+				parziali[i] = parziale;
+
+			}
+
+			b.close();
 
 		}
-
-		b.close();
-
 		return parziali;
-
 	}
 
 	public String[] leggiDatiMovimenti() throws IOException {
@@ -180,29 +182,32 @@ public class Lettore {
 		String mov;
 		String movimento1;
 
-		char[] in = new char[(int) f.length()];
-		FileReader r = new FileReader( f );
-		BufferedReader b = new BufferedReader( r );
-		b.read( in );
-		testoIntero = String.copyValueOf( in );
+		if ( f.length() > 0 ) {
 
-		volte = new Integer( testoIntero.substring( ( testoIntero.indexOf( '@' ) + 1 ), testoIntero.indexOf( '&' ) ) );
+			char[] in = new char[(int) f.length()];
+			FileReader r = new FileReader( f );
+			BufferedReader b = new BufferedReader( r );
+			b.read( in );
+			testoIntero = String.copyValueOf( in );
 
-		mov = testoIntero.substring( ( testoIntero.indexOf( "&" ) + 1 ) );
+			volte = new Integer( testoIntero.substring( ( testoIntero.indexOf( '@' ) + 1 ), testoIntero.indexOf( '&' ) ) );
 
-		for ( int i = 0; i < volte; i++ ) {
+			mov = testoIntero.substring( ( testoIntero.indexOf( "&" ) + 1 ) );
 
-			movimento1 = mov.substring( 0, ( mov.indexOf( ";" ) ) );
+			for ( int i = 0; i < volte; i++ ) {
 
-			aggiungiArrayMovimenti();
-			movimenti[i] = movimento1;
+				movimento1 = mov.substring( 0, ( mov.indexOf( ";" ) ) );
 
-			mov = mov.substring( ( mov.indexOf( ";" ) + 1 ), mov.length() );
+				aggiungiArrayMovimenti();
+				movimenti[i] = movimento1;
+
+				mov = mov.substring( ( mov.indexOf( ";" ) + 1 ), mov.length() );
+
+			}
+
+			b.close();
 
 		}
-
-		b.close();
-
 		return movimenti;
 
 	}

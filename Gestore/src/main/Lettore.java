@@ -90,6 +90,7 @@ public class Lettore {
 				r = new FileReader( f );
 				b = new BufferedReader( r );
 				b.read( in );
+				b.close();
 			} catch ( FileNotFoundException e ) {
 			} catch ( IOException e ) {
 			}
@@ -134,6 +135,7 @@ public class Lettore {
 				r = new FileReader( f );
 				b = new BufferedReader( r );
 				b.read( in );
+				b.close();
 			} catch ( FileNotFoundException e ) {
 			} catch ( IOException e ) {
 			}

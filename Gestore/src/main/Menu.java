@@ -3,6 +3,7 @@ package main;
 import java.awt.Color;
 import java.awt.Font;
 
+import javax.swing.BorderFactory;
 import javax.swing.JMenu;
 import javax.swing.JSeparator;
 import javax.swing.UIManager;
@@ -24,6 +25,7 @@ public class Menu extends JMenu {
 		setForeground( foreground );
 		setOpaque( true );
 		setBackground( sfondo );
+		setBorder( BorderFactory.createEmptyBorder() );
 	}
 
 	public void aggiungiSeparatore() {
