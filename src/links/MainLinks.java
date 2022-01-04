@@ -2,9 +2,9 @@ package links;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.Frame;
-import java.awt.GridBagConstraints;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.Toolkit;
@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.swing.BorderFactory;
+import javax.swing.JFrame;
 import javax.swing.JPopupMenu;
 import javax.swing.WindowConstants;
 import javax.swing.border.Border;
@@ -30,8 +31,8 @@ import gui.Layout;
 import gui.MenuBar;
 import gui.MenuItem;
 import gui.TextField;
+import gui.WrapLayout;
 import main.Main;
-import main.WrapLayout;
 import preferenze.Fonts;
 import preferenze.PreferenzeGUI;
 import utility.ColorChooser;
@@ -187,8 +188,11 @@ public class MainLinks {
 
 			@Override
 			public void actionPerformed( ActionEvent e ) {
-				links.add( DialogLink.creaLink( gui, f ) );
-				gestioneLinks();
+				Link l = DialogLink.creaLink( gui, f );
+				if ( l != null ) {
+					links.add( l );
+					gestioneLinks();
+				}
 			}
 		} );
 		aggiungi.setFont( new Font( "Microsoft New Tai Lue", Fonts.PLAIN, 50 ) );
@@ -200,8 +204,8 @@ public class MainLinks {
 		private static final long serialVersionUID = 1L;
 
 		public BottoneLink( PreferenzeGUI gui, Link link ) {
-			super( link.testoHTML(), gui.colori.interagibile(), gui.colori.testo(), gui.fonts.fontInteragibile( Fonts.BOLD ), link.getBordo(),
-					link.getBordoFocus(), new ActionListener() {
+			super( link.testoHTML(), gui.colori.interagibile(), link.getColoreComplementare(), gui.colori.testo(), gui.fonts.fontInteragibile( Fonts.BOLD ),
+					link.getBordo(), link.getBordoFocus(), new ActionListener() {
 
 						@Override
 						public void actionPerformed( ActionEvent e ) {
@@ -286,46 +290,36 @@ public class MainLinks {
 			Layout grid = gui.creaGridBagLayout();
 
 			Layout panelBottoni = gui.creaGridBagLayout();
-			Dialog d = gui.creaDialog( finestra, "Modifica Link", true, 400, 250, grid, panelBottoni, false );
+			Dialog d = gui.creaDialog( ( JFrame ) finestra, "Modifica Link", true, 400, 250, grid, panelBottoni, false );
 			d.setDefaultCloseOperation( WindowConstants.DO_NOTHING_ON_CLOSE );
-			panelBottoni = gui.creaPanelBottoni( new String[] { "Ok", "Cancella" }, new ActionListener[] { new ActionListener() {
+			panelBottoni = gui.creaPanelloBottoni( new Bottone[] { gui.creaBottone( "Ok", new ActionListener() {
 
 				@Override
 				public void actionPerformed( ActionEvent arg0 ) {
 					scelta = true;
 					d.dispose();
 				}
-			}, new ActionListener() {
+			} ), gui.creaBottone( "Cancella", new ActionListener() {
 
 				@Override
 				public void actionPerformed( ActionEvent arg0 ) {
 					d.dispose();
 				}
-			} } );
+			} ) } );
+
 			d.add( panelBottoni, BorderLayout.SOUTH );
 
 			scelta = false;
 
 			TextField titolo = gui.creaTextField( "Titolo Link" );
-			titolo.setColumns( titolo.getColumns() + 3 );
-			grid.add( gui.creaLabel( "Titolo:" ),
-					new GridBagConstraints( 0, 0, 1, 1, 0, 0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets( 5, 5, 5, 5 ), 0, 0 ) );
-			grid.add( titolo,
-					new GridBagConstraints( 1, 0, 2, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets( 5, 5, 5, 5 ), 0, 0 ) );
-
 			TextField testoLink = gui.creaTextField( "https://" );
 			testoLink.setColumns( 31 );
-			grid.add( gui.creaLabel( "Link:" ),
-					new GridBagConstraints( 0, 1, 1, 1, 0, 0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets( 5, 5, 5, 5 ), 0, 0 ) );
-			grid.add( testoLink,
-					new GridBagConstraints( 1, 1, 2, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets( 5, 5, 5, 5 ), 0, 0 ) );
 
-			grid.add( gui.creaLabel( "Colore:" ),
-					new GridBagConstraints( 0, 2, 1, 1, 0, 0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets( 5, 5, 5, 5 ), 0, 0 ) );
-			Label colore = new Label( "BBBBBBB", Color.gray, Color.gray, gui.fonts.fontGenerico( Fonts.PLAIN ), gui.bordi.bordoGenerico() );
-			grid.add( colore,
-					new GridBagConstraints( 1, 2, 1, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets( 5, 5, 5, 5 ), 0, 0 ) );
-			grid.add( gui.creaBottone( "Cambia colore", new ActionListener() {
+			Layout gridColore = gui.creaGridLayout( 1, 2 );
+			( ( GridLayout ) gridColore.getLayout() ).setHgap( 5 );
+			Label colore = new Label( "BBBBBBB", Color.gray, Color.gray, gui.fonts.fontGenerico( Fonts.PLAIN ), gui.bordi.bordoVuotoGenerico() );
+			gridColore.add( colore );
+			gridColore.add( gui.creaBottone( "Cambia colore", new ActionListener() {
 
 				@Override
 				public void actionPerformed( ActionEvent e ) {
@@ -333,7 +327,10 @@ public class MainLinks {
 					colore.setBackground( coloreNuovo );
 					colore.setForeground( coloreNuovo );
 				}
-			} ), new GridBagConstraints( 2, 2, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets( 5, 5, 5, 5 ), 0, 0 ) );
+			} ) );
+
+			d.add( gui.creaGruppoLabelComponenteOrizzontale( new String[] { "Titolo: ", "Link: ", "Colore: " },
+					new Component[] { titolo, testoLink, gridColore } ), BorderLayout.CENTER );
 
 			d.setVisible( true );
 
@@ -354,46 +351,37 @@ public class MainLinks {
 			Layout grid = gui.creaGridBagLayout();
 
 			Layout panelBottoni = gui.creaGridBagLayout();
-			Dialog d = gui.creaDialog( finestra, "Modifica Link", true, 400, 250, grid, panelBottoni, false );
+			Dialog d = gui.creaDialog( ( JFrame ) finestra, "Modifica Link", true, 400, 250, grid, panelBottoni, false );
 			d.setDefaultCloseOperation( WindowConstants.DO_NOTHING_ON_CLOSE );
-			panelBottoni = gui.creaPanelBottoni( new String[] { "Ok", "Cancella" }, new ActionListener[] { new ActionListener() {
+			panelBottoni = gui.creaPanelloBottoni( new Bottone[] { gui.creaBottone( "Ok", new ActionListener() {
 
 				@Override
 				public void actionPerformed( ActionEvent arg0 ) {
 					scelta = true;
 					d.dispose();
 				}
-			}, new ActionListener() {
+			} ), gui.creaBottone( "Cancella", new ActionListener() {
 
 				@Override
 				public void actionPerformed( ActionEvent arg0 ) {
 					d.dispose();
 				}
-			} } );
+			} ) } );
 			d.add( panelBottoni, BorderLayout.SOUTH );
 
 			scelta = false;
 
 			TextField titolo = gui.creaTextField( link.getTitolo() );
-			titolo.setColumns( titolo.getColumns() + 3 );
-			grid.add( gui.creaLabel( "Titolo:" ),
-					new GridBagConstraints( 0, 0, 1, 1, 0, 0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets( 5, 5, 5, 5 ), 0, 0 ) );
-			grid.add( titolo,
-					new GridBagConstraints( 1, 0, 2, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets( 5, 5, 5, 5 ), 0, 0 ) );
-
 			TextField testoLink = gui.creaTextField( link.getLink() );
 			testoLink.setColumns( 31 );
-			grid.add( gui.creaLabel( "Link:" ),
-					new GridBagConstraints( 0, 1, 1, 1, 0, 0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets( 5, 5, 5, 5 ), 0, 0 ) );
-			grid.add( testoLink,
-					new GridBagConstraints( 1, 1, 2, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets( 5, 5, 5, 5 ), 0, 0 ) );
+			testoLink.setColumns( 31 );
 
-			grid.add( gui.creaLabel( "Colore:" ),
-					new GridBagConstraints( 0, 2, 1, 1, 0, 0, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets( 5, 5, 5, 5 ), 0, 0 ) );
-			Label colore = new Label( "BBBBBBB", link.getColore(), link.getColore(), gui.fonts.fontGenerico( Fonts.PLAIN ), gui.bordi.bordoGenerico() );
-			grid.add( colore,
-					new GridBagConstraints( 1, 2, 1, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets( 5, 5, 5, 5 ), 0, 0 ) );
-			grid.add( gui.creaBottone( "Cambia colore", new ActionListener() {
+			Layout gridColore = gui.creaGridLayout( 1, 2 );
+			( ( GridLayout ) gridColore.getLayout() ).setHgap( 5 );
+			Label colore = new Label( "BBBBBBB", link.getColore(), link.getColore(), gui.fonts.fontGenerico( Fonts.PLAIN ),
+					gui.bordi.bordoVuotoGenerico() );
+			gridColore.add( colore );
+			gridColore.add( gui.creaBottone( "Cambia colore", new ActionListener() {
 
 				@Override
 				public void actionPerformed( ActionEvent e ) {
@@ -401,7 +389,10 @@ public class MainLinks {
 					colore.setBackground( coloreNuovo );
 					colore.setForeground( coloreNuovo );
 				}
-			} ), new GridBagConstraints( 2, 2, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets( 5, 5, 5, 5 ), 0, 0 ) );
+			} ) );
+
+			d.add( gui.creaGruppoLabelComponenteOrizzontale( new String[] { "Titolo: ", "Link: ", "Colore: " },
+					new Component[] { titolo, testoLink, gridColore } ), BorderLayout.CENTER );
 
 			d.setVisible( true );
 
@@ -435,8 +426,7 @@ class Link {
 	}
 
 	public Border getBordoFocus() {
-		return BorderFactory.createCompoundBorder(
-				BorderFactory.createLineBorder( new Color( ( 255 - colore.getRed() ), ( 255 - colore.getGreen() ), ( 255 - colore.getBlue() ) ), 3 ),
+		return BorderFactory.createCompoundBorder( BorderFactory.createLineBorder( getColoreComplementare(), 3 ),
 				BorderFactory.createEmptyBorder( 0, 20, 20, 20 ) );
 	}
 
@@ -462,6 +452,10 @@ class Link {
 
 	public Color getColore() {
 		return colore;
+	}
+
+	public Color getColoreComplementare() {
+		return new Color( ( 255 - colore.getRed() ), ( 255 - colore.getGreen() ), ( 255 - colore.getBlue() ) );
 	}
 
 	public void setColore( Color colore ) {

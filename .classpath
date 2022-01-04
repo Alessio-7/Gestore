@@ -6,6 +6,6 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="F:/Computer/Documenti/java-workspace/AlessioGUI/AlessioGUI.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Alessio/Documents/Programmi/AlessioGUI-v.1.2.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
